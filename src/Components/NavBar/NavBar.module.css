@@ -1,0 +1,74 @@
+.nav {
+  height: 8vh;
+  background-color: black;
+  padding: 5px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.logoDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  background-color: whitesmoke;
+}
+
+.name {
+  color: whitesmoke;
+  margin-left: 20px;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.link {
+  margin: 10px;
+  font-size: 18px;
+  color: whitesmoke;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.active {
+  margin: 10px;
+  font-size: 18px;
+  color: whitesmoke;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.accDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 50px;
+}
+
+.username {
+  color: whitesmoke;
+  margin-right: 10px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+}
+
+.dropIcon {
+  color: whitesmoke;
+}
