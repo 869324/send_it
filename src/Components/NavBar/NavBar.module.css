@@ -1,6 +1,10 @@
 .nav {
-  height: 8vh;
-  background-color: black;
+  height: 7%;
+  background: linear-gradient(
+    45deg,
+    rgb(27, 116, 218),
+    rgba(27, 116, 218, 0.8)
+  );
   padding: 5px;
   display: flex;
   justify-content: space-around;
@@ -70,5 +74,45 @@
 }
 
 .dropIcon {
-  color: whitesmoke;
+  color: white;
+}
+
+.loginDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login {
+  width: 5vw;
+  background-color: rgba(245, 245, 245, 0.95);
+  color: rgba(27, 116, 218, 0.8);
+  font-size: 18px;
+  border: none;
+  padding: 5px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.menu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-items: start;
+  align-items: flex-start;
+  border-radius: 5px;
+  background-color: rgba(250, 250, 250, 0.7);
+  box-shadow: 0px 3px 10px rgb(0 0 0 /0.2);
+  z-index: 99;
+}
+
+.menuItem {
+  width: calc(100% - 20px);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.menuItem:hover {
+  background-color: rgba(250, 250, 250, 0.6);
 }
