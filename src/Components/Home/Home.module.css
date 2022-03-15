@@ -107,10 +107,10 @@
 }
 
 .parcels {
-  background-color: rgb(27, 116, 218);
+  background-color: orange;
   border: none;
-  color: white;
-  padding: 10px;
+  color: black;
+  padding: 10px 20px;
   font-size: 18px;
   font-weight: bold;
   border-radius: 10px;

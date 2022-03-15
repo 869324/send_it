@@ -15,7 +15,7 @@ function Signup(props) {
         <form className={styles.form} onSubmit={submit}>
           <div className={styles.header}>
             <img className={styles.logo} src={logo} />
-            <h2 className={styles.heading}>Create an Account</h2>
+            <h2 className={styles.heading}>Create Account</h2>
           </div>
 
           <input className={styles.input} placeholder="Firstname" required />

@@ -1,13 +1,9 @@
 .nav {
   height: 7%;
-  background: linear-gradient(
-    45deg,
-    rgb(27, 116, 218),
-    rgba(27, 116, 218, 0.8)
-  );
-  padding: 5px;
+  background-color: black;
+  padding: 5px 15px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -18,14 +14,14 @@
 }
 
 .logo {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50px;
-  background-color: whitesmoke;
+  background-color: orange;
 }
 
 .name {
-  color: whitesmoke;
+  color: orange;
   margin-left: 20px;
 }
 
@@ -38,7 +34,7 @@
 .link {
   margin: 10px;
   font-size: 18px;
-  color: whitesmoke;
+  color: orange;
   font-weight: bold;
   text-decoration: none;
 }
@@ -46,7 +42,7 @@
 .active {
   margin: 10px;
   font-size: 18px;
-  color: whitesmoke;
+  color: orange;
   font-weight: bold;
   text-decoration: underline;
 }
@@ -64,6 +60,7 @@
 
 .username {
   color: whitesmoke;
+  font-weight: 500;
   margin-right: 10px;
 }
 
@@ -74,7 +71,7 @@
 }
 
 .dropIcon {
-  color: white;
+  color: orange;
 }
 
 .loginDiv {
@@ -84,9 +81,8 @@
 }
 
 .login {
-  width: 5vw;
-  background-color: rgba(245, 245, 245, 0.95);
-  color: rgba(27, 116, 218, 0.8);
+  background: none;
+  color: white;
   font-size: 18px;
   border: none;
   padding: 5px;
@@ -94,14 +90,26 @@
   font-weight: bold;
 }
 
+#signup {
+  background-color: orange;
+  color: black;
+  font-size: 18px;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
 .menu {
   position: absolute;
+  right: 10px;
   display: flex;
   flex-direction: column;
   justify-items: start;
   align-items: flex-start;
   border-radius: 5px;
-  background-color: rgba(250, 250, 250, 0.7);
+  background-color: orange;
   box-shadow: 0px 3px 10px rgb(0 0 0 /0.2);
   z-index: 99;
 }
@@ -114,5 +122,5 @@
 }
 
 .menuItem:hover {
-  background-color: rgba(250, 250, 250, 0.6);
+  background-color: rgba(250, 250, 250, 0.5);
 }

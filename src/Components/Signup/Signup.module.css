@@ -23,7 +23,7 @@
   justify-content: start;
   align-items: center;
   border-radius: 10px;
-  background-color: rgba(250, 250, 250, 0.3);
+  background-color: rgba(250, 250, 250, 0.6);
   overflow-y: auto;
 }
 
@@ -56,14 +56,14 @@
 
 .button {
   width: 50%;
-  background-color: rgb(27, 116, 218);
+  background-color: orange;
   border: none;
   border-radius: 10px;
   padding: 10px;
   margin: 20px;
   font-size: 18px;
   font-weight: bold;
-  color: white;
+  color: black;
 }
 
 .signup {
@@ -86,5 +86,5 @@
 .link {
   font-size: 18px;
   font-weight: bold;
-  color: white;
+  color: black;
 }

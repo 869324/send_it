@@ -15,7 +15,6 @@ function User(props) {
           <Route path="/home" element={<Home />} />
           <Route path="/parcels" element={<HomeParcels />} />
           <Route path="/aboutUs" element={<HomeParcels />} />
-          <Route path="/signup" element={<Navigate to="/signup" />} />
         </Routes>
       </div>
     </main>

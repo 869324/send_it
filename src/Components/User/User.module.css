@@ -5,4 +5,6 @@
 
 .pages {
   height: 91.5%;
+  background-position: center;
+  background-size: cover;
 }

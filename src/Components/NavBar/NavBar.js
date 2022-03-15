@@ -13,10 +13,14 @@ function NavBar(props) {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   let username = "Javan";
-  let loggedIn = true;
+  let loggedIn = false;
 
   function login(event) {
     navigate("/login");
+  }
+
+  function signup(event) {
+    navigate("/signup");
   }
   return (
     <nav className={styles.nav}>
@@ -51,6 +55,15 @@ function NavBar(props) {
           }
         >
           About Us
+        </NavLink>
+
+        <NavLink
+          to="contactUs"
+          className={(navData) =>
+            navData.isActive ? styles.active : styles.link
+          }
+        >
+          Contact Us
         </NavLink>
       </div>
 
@@ -89,15 +102,9 @@ function NavBar(props) {
           <button className={styles.login} onClick={login}>
             Login
           </button>
-          <NavLink
-            to="signup"
-            id={styles.signup}
-            className={(navData) =>
-              navData.isActive ? styles.active : styles.link
-            }
-          >
-            Create Account
-          </NavLink>
+          <button id={styles.signup} onClick={signup}>
+            Sign Up
+          </button>
         </div>
       )}
     </nav>
