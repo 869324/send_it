@@ -1,0 +1,58 @@
+.main {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.heading {
+  text-align: center;
+  color: whitesmoke;
+}
+
+.data {
+  width: 95%;
+  height: 70%;
+  margin: auto;
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: repeat(1fr 1fr 1fr);
+  grid-template-rows: repeat(1fr 1fr 1fr);
+  grid-template-areas:
+    "orders orders spending"
+    "orders orders spending"
+    " time time spending";
+}
+
+.orders {
+  background-color: rgba(0, 0, 0, 0.4);
+  grid-area: orders;
+  border-radius: 10px;
+}
+
+.spending {
+  background-color: rgba(0, 0, 0, 0.4);
+  grid-area: spending;
+  border-radius: 10px;
+}
+
+.time {
+  background-color: rgba(0, 0, 0, 0.4);
+  grid-area: time;
+  box-shadow: 0px 3px 10px rgb(0 0 0 /0.2);
+  border-radius: 10px;
+}
+
+.button {
+  background-color: orange;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  color: black;
+  margin: auto;
+  font-weight: bold;
+}

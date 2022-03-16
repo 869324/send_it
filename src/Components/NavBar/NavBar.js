@@ -49,6 +49,15 @@ function NavBar(props) {
         </NavLink>
 
         <NavLink
+          to="services"
+          className={(navData) =>
+            navData.isActive ? styles.active : styles.link
+          }
+        >
+          Services
+        </NavLink>
+
+        <NavLink
           to="aboutUs"
           className={(navData) =>
             navData.isActive ? styles.active : styles.link

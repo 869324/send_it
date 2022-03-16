@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 
 import styles from "./Signup.module.css";
-import bg from "../../assets/images/road-marking.webp";
+import bg from "../../assets/images/dark.jpg";
 import logo from "../../assets/logos/default.jpeg";
 
 function Signup(props) {

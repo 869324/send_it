@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 import styles from "./Login.module.css";
-import bg from "../../assets/images/road-marking.webp";
+import bg from "../../assets/images/dark.jpg";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import logo from "../../assets/logos/default.jpeg";
 
@@ -25,7 +25,11 @@ function Login(props) {
               <img className={styles.logo} src={logo} />
               <h2 className={styles.heading}>Send It Log In</h2>
             </div>
-            <input className={styles.input} placeholder="Username" required />
+            <input
+              className={styles.input}
+              placeholder="Username or Email or Phone"
+              required
+            />
             <input
               className={styles.input}
               type="password"

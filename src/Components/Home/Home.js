@@ -1,93 +1,130 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import moment from "moment";
-import { useState, useEffect } from "react";
-import { GiKenya, GiReceiveMoney } from "react-icons/gi";
-import { FaRoad } from "react-icons/fa";
-import { MdWavingHand } from "react-icons/md";
-import { BsArrowDown } from "react-icons/bs";
-import { ImLocation2 } from "react-icons/im";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./Home.module.css";
-import bg from "../../assets/images/road-marking.webp";
+import bg from "../../assets/images/Map.jpg";
+import homePic from "../../assets/images/Domestic-delivery.png";
+import order from "../../assets/images/order.png";
+import view from "../../assets/images/view.png";
+import nav from "../../assets/images/nav.png";
+import contact from "../../assets/images/contact.png";
+import kenya from "../../assets/images/kenya.jpg";
+import affordable from "../../assets/images/affordable.jpg";
+import security from "../../assets/images/security.jpg";
+import track from "../../assets/images/track.webp";
+import road from "../../assets/images/road-marking.webp";
 
 function Home(props) {
   const navigate = useNavigate();
   let username = "Javan";
-  const [greeting, setGreeting] = useState("Hello");
-
-  useEffect(() => {
-    setInterval(greet(), 60000);
-  }, []);
-
-  function greet() {
-    const now = moment();
-    const hour = now.hours();
-
-    if (hour > 16 && greeting != "Good evening") {
-      setGreeting("Good evening");
-    } else if (hour > 11 && greeting != "Good afternoon") {
-      setGreeting("Good afternoon");
-    } else if (hour > 3 && greeting != "Good morning") {
-      setGreeting("Good morning");
-    } else {
-      if (greeting != "Hello") {
-        setGreeting("Hello");
-      }
-    }
-  }
 
   function goToParcels() {
     navigate("/user/parcels");
   }
 
-  return (
-    <main className={styles.main} style={{ backgroundImage: `url(${bg})` }}>
-      <div className={styles.overlay}>
-        <div className={styles.header}>
-          <MdWavingHand className={styles.wave} size={42} />
-          <h1 className={styles.heading}>{`${greeting} ${username}`}</h1>
-        </div>
-        <p className={styles.desc}>
-          <b>Send It</b> we are your go-to service provider for all your parcel
-          needs<br></br> We offer parcel delivery services to our esteemed
-          customers and it is our pleasure to serve you.
-        </p>
+  function navOrder() {
+    navigate("/user/parcels");
+  }
 
-        <div className={styles.ad}>
-          <BsArrowDown className={styles.arrow} size={28} />
-          <label className={styles.adText}>
-            {" "}
-            Here are some goodies you will enjoy from us
-          </label>
+  return (
+    <main className={styles.home}>
+      <div className={styles.main} style={{ backgroundImage: `url(${bg})` }}>
+        <div className={styles.overlay}>
+          <div className={styles.picDiv}>
+            <img className={styles.homePic} src={homePic} />
+          </div>
+
+          <div className={styles.cont}>
+            <h1 className={styles.heading}>
+              We are your go-to service provider <br></br>for all your parcel
+              needs
+            </h1>
+
+            <p className={styles.desc}>
+              We offer parcel delivery services to our esteemed customers and it
+              is our pleasure to serve you.
+            </p>
+          </div>
         </div>
 
         <div className={styles.info}>
           <div className={styles.tile}>
-            <GiKenya className={styles.tileIcon} size={70} />
-            <p className={styles.tileText}>
-              Enjoy our services across the country
-            </p>
+            <img className={styles.tileImg} src={order} />
+            <button className={styles.tileText} onClick={navOrder}>
+              Order a delivery
+            </button>
           </div>
 
           <div className={styles.tile}>
-            <GiReceiveMoney className={styles.tileIcon} size={70} />
-            <p className={styles.tileText}>
-              Our services are efficient and affordable
-            </p>
+            <img className={styles.tileImg} src={view} />
+            <button className={styles.tileText}>Manage your deliveries</button>
           </div>
 
           <div className={styles.tile}>
-            <FaRoad className={styles.tileIcon} size={70} />
-            <p className={styles.tileText}>
-              We respond and act to your requests fast
+            <img className={styles.tileImg} src={nav} />
+            <button className={styles.tileText}>Track your Deliveries</button>
+          </div>
+
+          <div className={styles.tile}>
+            <img className={styles.tileImg} src={contact} />
+            <button className={styles.tileText}>Contact Us</button>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.adDiv}>
+        <h1 className={styles.adHeading}>Benefits of trying us</h1>
+
+        <div className={styles.ad}>
+          <img className={styles.adImg} src={kenya} />
+          <div className={styles.textDiv}>
+            <h3 className={styles.textHeading}>Accessibilty</h3>
+            <p className={styles.adText}>
+              Our services are accessible from allover across the country. We go
+              the extra mile (pun intended) to cover all Routes accorind to our
+              clients' needs. You can contatct us from every part of the country
+              through our contact channels
             </p>
           </div>
         </div>
-        <div className={styles.actions}>
-          <button className={styles.parcels} onClick={goToParcels}>
-            Continue to Parcels
-          </button>
+      </div>
+
+      <div className={styles.ad}>
+        <div className={styles.textDiv}>
+          <h3 className={styles.textHeading}>Affordabilty</h3>
+          <p className={styles.adText}>
+            Our prices are affordable as they are reasonably calculated. We
+            strive to maintain the efficiency of our services without charging a
+            lot of money. There are also different categories of services meant
+            to ensure affordabilty
+          </p>
         </div>
+        <img className={styles.adImg} src={affordable} />
+      </div>
+
+      <div className={styles.ad}>
+        <img className={styles.adImg} src={track} />
+        <div className={styles.textDiv}>
+          <h3 className={styles.textHeading}>Tracking</h3>
+          <p className={styles.adText}>
+            you can track the progress of your delivery anytime you want. This
+            is an initiative to maintain accountability while also keeping you
+            in the know of the delivery progress.
+          </p>
+        </div>
+      </div>
+
+      <div className={styles.ad}>
+        <div className={styles.textDiv}>
+          <h3 className={styles.textHeading}>Safety</h3>
+          <p className={styles.adText}>
+            Our security is paramount for we Value the safety of your cargo. We
+            take well evaluated security measures to ensure your goods remain
+            safe. Our security is not limited to protection against
+            theft/roberry but it also covers other risks like protecting
+            perishable goods and safe-guarding fragile luggage
+          </p>
+        </div>
+        <img className={styles.adImg} src={security} />
       </div>
     </main>
   );
