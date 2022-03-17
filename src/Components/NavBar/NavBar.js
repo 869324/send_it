@@ -1,19 +1,25 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import { logout } from "../../Redux/Actions/UserActions";
+
 import { AiFillCaretDown } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { AiFillSetting } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
 
-import logo from "../../assets/logos/black.png";
-import user from "../../assets/images/user.png";
 import styles from "./NavBar.module.css";
+
+import logo from "../../assets/logos/black.png";
+import userImg from "../../assets/images/user.png";
 
 function NavBar(props) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [showMenu, setShowMenu] = useState(false);
-  let username = "Javan";
-  let loggedIn = false;
+  const user = useSelector((state) => state.user);
 
   function login(event) {
     navigate("/login");
@@ -76,15 +82,15 @@ function NavBar(props) {
         </NavLink>
       </div>
 
-      {loggedIn && (
+      {Object.keys(user).length > 0 && (
         <div className={styles.accDiv}>
-          <label className={styles.username}>{username}</label>
+          <label className={styles.username}>{user.username}</label>
           <div
             className={styles.menuDiv}
             onMouseEnter={() => setShowMenu(true)}
             onMouseLeave={() => setShowMenu(false)}
           >
-            <img className={styles.avatar} src={user} />
+            <img className={styles.avatar} src={userImg} />
             <AiFillCaretDown className={styles.dropIcon} />
             {showMenu && (
               <div className={styles.menu}>
@@ -92,11 +98,13 @@ function NavBar(props) {
                   <CgProfile className={styles.menuIcon} />
                   <label className={styles.menuText}>Profile</label>
                 </div>
-                <div className={styles.menuItem}>
-                  <AiFillSetting className={styles.menuIcon} />
-                  <label className={styles.menuText}>Settings</label>
-                </div>
-                <div className={styles.menuItem}>
+
+                <div
+                  className={styles.menuItem}
+                  onClick={() => {
+                    dispatch(logout());
+                  }}
+                >
                   <BiLogOut className={styles.menuIcon} />
                   <label className={styles.menuText}>Logout</label>
                 </div>
@@ -106,7 +114,7 @@ function NavBar(props) {
         </div>
       )}
 
-      {!loggedIn && (
+      {Object.keys(user).length == 0 && (
         <div className={styles.loginDiv}>
           <button className={styles.login} onClick={login}>
             Login

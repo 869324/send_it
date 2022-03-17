@@ -1,26 +1,24 @@
+import { useSelector, useDispatch } from "react-redux";
+
 import { FaLuggageCart } from "react-icons/fa";
 import { ImStatsDots } from "react-icons/im";
 import { SiAddthis } from "react-icons/si";
 
 import styles from "./UserDashboard.module.css";
 
+import { changePanel } from "../../Redux/Actions/StatesActions";
+
 function UserDashboard(props) {
+  const dispatch = useDispatch();
+
+  const states = useSelector((state) => state.states);
+
   return (
     <div className={styles.dashboard}>
       <div
-        className={props.panel == "MyData" ? styles.tabActive : styles.tab}
+        className={states.panel === "newOrder" ? styles.tabActive : styles.tab}
         onClick={() => {
-          props.setPanel("MyData");
-        }}
-      >
-        <ImStatsDots className={styles.tabIcon} size={21} />
-        <label className={styles.tabText}>My Data</label>
-      </div>
-
-      <div
-        className={props.panel == "NewOrder" ? styles.tabActive : styles.tab}
-        onClick={() => {
-          props.setPanel("NewOrders");
+          dispatch(changePanel("newOrder"));
         }}
       >
         <SiAddthis className={styles.tabIcon} size={21} />
@@ -28,13 +26,25 @@ function UserDashboard(props) {
       </div>
 
       <div
-        className={props.panel == "MyOrders" ? styles.tabActive : styles.tab}
+        className={states.panel === "myOrders" ? styles.tabActive : styles.tab}
         onClick={() => {
-          props.setPanel("MyOrders");
+          dispatch(changePanel("myOrders"));
         }}
       >
         <FaLuggageCart className={styles.tabIcon} size={21} />
         <label className={styles.tabText}>My Orders</label>
+      </div>
+
+      <div
+        className={
+          states.panel === "trackDelivery" ? styles.tabActive : styles.tab
+        }
+        onClick={() => {
+          dispatch(changePanel("trackDelivery"));
+        }}
+      >
+        <ImStatsDots className={styles.tabIcon} size={21} />
+        <label className={styles.tabText}>Track Deliveries</label>
       </div>
     </div>
   );

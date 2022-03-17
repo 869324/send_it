@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import Axios from "axios";
+import { login } from "../../Redux/Actions/UserActions";
+import swal from "sweetalert";
 
 import styles from "./Login.module.css";
 import bg from "../../assets/images/dark.jpg";
@@ -7,10 +11,33 @@ import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import logo from "../../assets/logos/default.jpeg";
 
 function Login(props) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [forgotPassword, setForgotPassword] = useState(false);
+  const [identity, setIdentity] = useState("");
+  const [password, setPassword] = useState("");
 
   function submit(event) {
     event.preventDefault();
+    Axios.post("http://localhost:8000/users/login", {
+      identity: identity,
+      password: password,
+    })
+      .then((response) => {
+        const loggedIn = response.data.status;
+
+        if (loggedIn) {
+          dispatch(login(response.data.user));
+          navigate("/");
+        } else {
+          swal("Invalid login credentials", {
+            title: "Login Failed",
+            icon: "error",
+          });
+        }
+      })
+      .catch((error) => {});
   }
 
   return (
@@ -27,12 +54,20 @@ function Login(props) {
             </div>
             <input
               className={styles.input}
-              placeholder="Username or Email or Phone"
+              value={identity}
+              onChange={(e) => {
+                setIdentity(e.target.value);
+              }}
+              placeholder="Username or Email"
               required
             />
             <input
               className={styles.input}
               type="password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               placeholder="Password"
               required
             />

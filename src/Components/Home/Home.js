@@ -1,6 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { changePanel } from "../../Redux/Actions/StatesActions";
 
 import styles from "./Home.module.css";
+
 import bg from "../../assets/images/Map.jpg";
 import homePic from "../../assets/images/Domestic-delivery.png";
 import order from "../../assets/images/order.png";
@@ -11,18 +15,28 @@ import kenya from "../../assets/images/kenya.jpg";
 import affordable from "../../assets/images/affordable.jpg";
 import security from "../../assets/images/security.jpg";
 import track from "../../assets/images/track.webp";
-import road from "../../assets/images/road-marking.webp";
 
 function Home(props) {
   const navigate = useNavigate();
-  let username = "Javan";
+  const dispatch = useDispatch();
 
-  function goToParcels() {
+  function newOrder() {
+    dispatch(changePanel("newOrder"));
     navigate("/user/parcels");
   }
 
-  function navOrder() {
+  function manageOrders() {
+    dispatch(changePanel("myOrders"));
     navigate("/user/parcels");
+  }
+
+  function trackDeliveries() {
+    dispatch(changePanel("trackDelivery"));
+    navigate("/user/parcels");
+  }
+
+  function contactUs() {
+    navigate("/user/contactUs");
   }
 
   return (
@@ -49,24 +63,30 @@ function Home(props) {
         <div className={styles.info}>
           <div className={styles.tile}>
             <img className={styles.tileImg} src={order} />
-            <button className={styles.tileText} onClick={navOrder}>
+            <button className={styles.tileText} onClick={newOrder}>
               Order a delivery
             </button>
           </div>
 
           <div className={styles.tile}>
             <img className={styles.tileImg} src={view} />
-            <button className={styles.tileText}>Manage your deliveries</button>
+            <button className={styles.tileText} onClick={manageOrders}>
+              Manage your deliveries
+            </button>
           </div>
 
           <div className={styles.tile}>
             <img className={styles.tileImg} src={nav} />
-            <button className={styles.tileText}>Track your Deliveries</button>
+            <button className={styles.tileText} onClick={trackDeliveries}>
+              Track your Deliveries
+            </button>
           </div>
 
           <div className={styles.tile}>
             <img className={styles.tileImg} src={contact} />
-            <button className={styles.tileText}>Contact Us</button>
+            <button className={styles.tileText} onClick={contactUs}>
+              Contact Us
+            </button>
           </div>
         </div>
       </div>
