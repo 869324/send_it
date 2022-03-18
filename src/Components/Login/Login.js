@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { login } from "../../Redux/Actions/UserActions";
@@ -13,6 +13,8 @@ import logo from "../../assets/logos/default.jpeg";
 function Login(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const states = useSelector((state) => state.states);
 
   const [forgotPassword, setForgotPassword] = useState(false);
   const [identity, setIdentity] = useState("");
@@ -29,7 +31,7 @@ function Login(props) {
 
         if (loggedIn) {
           dispatch(login(response.data.user));
-          navigate("/");
+          navigate(states.loginRedirect);
         } else {
           swal("Invalid login credentials", {
             title: "Login Failed",

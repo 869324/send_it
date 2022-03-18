@@ -8,7 +8,7 @@ import order from "../../assets/images/order.png";
 import view from "../../assets/images/view.png";
 import nav from "../../assets/images/nav.png";
 
-function UserData(props) {
+function GetStarted(props) {
   const dispatch = useDispatch();
   return (
     <div className={styles.main}>
@@ -57,4 +57,4 @@ function UserData(props) {
   );
 }
 
-export default UserData;
+export default GetStarted;
