@@ -6,7 +6,8 @@ import { logout } from "../../Redux/Actions/UserActions";
 
 import { AiFillCaretDown } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
-import { AiFillSetting } from "react-icons/ai";
+import { MdPersonPin } from "react-icons/md";
+import { BsPersonCircle } from "react-icons/bs";
 import { BiLogOut } from "react-icons/bi";
 
 import styles from "./NavBar.module.css";
@@ -90,7 +91,7 @@ function NavBar(props) {
             onMouseEnter={() => setShowMenu(true)}
             onMouseLeave={() => setShowMenu(false)}
           >
-            <img className={styles.avatar} src={userImg} />
+            <MdPersonPin className={styles.avatar} size={35} />
             <AiFillCaretDown className={styles.dropIcon} />
             {showMenu && (
               <div className={styles.menu}>

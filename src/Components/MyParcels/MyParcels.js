@@ -2,8 +2,11 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import moment from "moment";
 
-import { AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineSearch, AiOutlineUpload } from "react-icons/ai";
+import { FaUpload } from "react-icons/fa";
+import { MdDelete, MdLocationOn } from "react-icons/md";
 
 import styles from "./MyParcels.module.css";
 
@@ -39,10 +42,6 @@ function MyParcels(props) {
 
   return (
     <div className={styles.main}>
-      <div className={styles.header}>
-        <h1 className={styles.heading}>My Delivery Orders</h1>
-      </div>
-
       <div className={styles.actions}>
         <div className={styles.searchDiv}>
           <input
@@ -50,12 +49,16 @@ function MyParcels(props) {
             onChange={(e) => {
               setSearch(e.target.value);
             }}
+            placeholder="Search"
           />
           <AiOutlineSearch
             className={styles.searchIcon}
+            size={28}
             onClick={fetchParcels}
           />
         </div>
+
+        <h1 className={styles.heading}>Delivery Orders</h1>
 
         <div className={styles.sortDiv}>
           <label className={styles.sortText}>Sort</label>
@@ -77,59 +80,66 @@ function MyParcels(props) {
       </div>
 
       <div className={styles.cont}>
-        {parcels.map((parcel, id) => {
-          return (
-            <div className={styles.row}>
-              <label className={styles.name}>{`${id + 1}:    ${
-                parcel.description
-              }`}</label>
-
-              <div className={styles.data}>
-                <label className={styles.category}>From:</label>
-                <label className={styles.value}>
+        <table className={styles.table}>
+          <tr className={styles.tableHead}>
+            <th className={styles.tableHeader}>No</th>
+            <th className={styles.tableHeader}>Description</th>
+            <th className={styles.tableHeader}>From</th>
+            <th className={styles.tableHeader}>To</th>
+            <th className={styles.tableHeader}>Date</th>
+            <th className={styles.tableHeader}>Status</th>
+            <th className={styles.tableHeaderIcon}>Track</th>
+            <th className={styles.tableHeaderIcon}>Update</th>
+            <th className={styles.tableHeaderIcon}>Cancel</th>
+          </tr>
+          {parcels.map((parcel, id) => {
+            return (
+              <tr
+                className={
+                  (id + 1) % 2 > 0 ? styles.tableRowOdd : styles.tableRowEven
+                }
+              >
+                <td className={styles.tableData}>{id + 1} </td>
+                <td className={styles.tableData}>{parcel.description} </td>
+                <td className={styles.tableData}>
                   {
                     states.stations.find(
                       (station) => station.id == parcel.start_location
                     ).name
                   }
-                </label>
-              </div>
-
-              <div className={styles.data}>
-                <label className={styles.category}>To:</label>
-                <label className={styles.value}>
+                </td>
+                <td className={styles.tableData}>
                   {
                     states.stations.find(
                       (station) => station.id == parcel.end_location
                     ).name
                   }
-                </label>
-              </div>
-
-              <div className={styles.data}>
-                <label className={styles.category}>Receiver's phone:</label>
-                <label
-                  className={styles.value}
-                >{`+254${parcel.receiver_number}`}</label>
-              </div>
-
-              <div className={styles.data}>
-                <label className={styles.category}>Status:</label>
-                <label className={styles.value}>
+                </td>
+                <td className={styles.tableData}>
+                  {moment(parcel.date_created, "YYYY-MM-DDTHH:mm:ss.0Z").format(
+                    "YYYY-MM-DD HH:mm"
+                  )}
+                </td>
+                <td className={styles.tableData}>
                   {parcel.isDelivered == "true"
-                    ? "Parcel was delivered"
+                    ? "Delivered"
                     : parcel.isSent == "true"
-                    ? "Parcel is enroute"
-                    : "Parcel has not departed yet"}
-                </label>
-              </div>
-
-              <button className={styles.update}>Update Information</button>
-              <button className={styles.order}>Cancel Order</button>
-              <button className={styles.track}>Track</button>
-            </div>
-          );
-        })}
+                    ? "Enroute"
+                    : "Not Sent"}
+                </td>
+                <td className={styles.tableIcon}>
+                  <MdLocationOn className={styles.trackIcon} size={21} />
+                </td>
+                <td className={styles.tableIcon}>
+                  <FaUpload className={styles.updateIcon} size={21} />
+                </td>
+                <td className={styles.tableIcon}>
+                  <MdDelete className={styles.cancelIcon} size={21} />
+                </td>
+              </tr>
+            );
+          })}
+        </table>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import { changePanel } from "../../Redux/Actions/StatesActions";
 
 import styles from "./Home.module.css";
 
-import bg from "../../assets/images/Map.jpg";
+import bg from "../../assets/images/dark.jpg";
 import homePic from "../../assets/images/Domestic-delivery.png";
 import order from "../../assets/images/order.png";
 import view from "../../assets/images/view.png";
@@ -43,50 +43,52 @@ function Home(props) {
     <main className={styles.home}>
       <div className={styles.main} style={{ backgroundImage: `url(${bg})` }}>
         <div className={styles.overlay}>
-          <div className={styles.picDiv}>
-            <img className={styles.homePic} src={homePic} />
+          <div className={styles.intro}>
+            <div className={styles.picDiv}>
+              <img className={styles.homePic} src={homePic} />
+            </div>
+
+            <div className={styles.cont}>
+              <h1 className={styles.heading}>
+                We are your go-to service provider <br></br>for all your parcel
+                needs
+              </h1>
+
+              <p className={styles.desc}>
+                We offer parcel delivery services to our esteemed customers and
+                it is our pleasure to serve you.
+              </p>
+            </div>
           </div>
 
-          <div className={styles.cont}>
-            <h1 className={styles.heading}>
-              We are your go-to service provider <br></br>for all your parcel
-              needs
-            </h1>
+          <div className={styles.info}>
+            <div className={styles.tile}>
+              <img className={styles.tileImg} src={order} />
+              <button className={styles.tileText} onClick={newOrder}>
+                Order a delivery
+              </button>
+            </div>
 
-            <p className={styles.desc}>
-              We offer parcel delivery services to our esteemed customers and it
-              is our pleasure to serve you.
-            </p>
-          </div>
-        </div>
+            <div className={styles.tile}>
+              <img className={styles.tileImg} src={view} />
+              <button className={styles.tileText} onClick={manageOrders}>
+                Manage your deliveries
+              </button>
+            </div>
 
-        <div className={styles.info}>
-          <div className={styles.tile}>
-            <img className={styles.tileImg} src={order} />
-            <button className={styles.tileText} onClick={newOrder}>
-              Order a delivery
-            </button>
-          </div>
+            <div className={styles.tile}>
+              <img className={styles.tileImg} src={nav} />
+              <button className={styles.tileText} onClick={trackDeliveries}>
+                Track your Deliveries
+              </button>
+            </div>
 
-          <div className={styles.tile}>
-            <img className={styles.tileImg} src={view} />
-            <button className={styles.tileText} onClick={manageOrders}>
-              Manage your deliveries
-            </button>
-          </div>
-
-          <div className={styles.tile}>
-            <img className={styles.tileImg} src={nav} />
-            <button className={styles.tileText} onClick={trackDeliveries}>
-              Track your Deliveries
-            </button>
-          </div>
-
-          <div className={styles.tile}>
-            <img className={styles.tileImg} src={contact} />
-            <button className={styles.tileText} onClick={contactUs}>
-              Contact Us
-            </button>
+            <div className={styles.tile}>
+              <img className={styles.tileImg} src={contact} />
+              <button className={styles.tileText} onClick={contactUs}>
+                Contact Us
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -145,6 +147,11 @@ function Home(props) {
           </p>
         </div>
         <img className={styles.adImg} src={security} />
+      </div>
+
+      <div className={styles.copyright}>
+        <label className={styles.copyright1}>@copyright Send It </label>
+        <label className={styles.copyright2}> all rights reserved</label>
       </div>
     </main>
   );
