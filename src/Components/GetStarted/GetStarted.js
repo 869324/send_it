@@ -7,6 +7,7 @@ import { changePanel } from "../../Redux/Actions/StatesActions";
 import order from "../../assets/images/order.png";
 import view from "../../assets/images/view.png";
 import nav from "../../assets/images/nav.png";
+import homePic from "../../assets/images/Domestic-delivery.png";
 
 function GetStarted(props) {
   const dispatch = useDispatch();
@@ -15,6 +16,8 @@ function GetStarted(props) {
       <h1 className={styles.heading}>
         Make and manage all your orders with ease
       </h1>
+
+      <img className={styles.homePic} src={homePic} />
 
       <div className={styles.actions}>
         <div className={styles.action}>

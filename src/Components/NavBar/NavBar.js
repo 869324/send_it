@@ -1,13 +1,13 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { logout } from "../../Redux/Actions/UserActions";
+import { changeLoginRedirect } from "../../Redux/Actions/StatesActions";
 
 import { AiFillCaretDown } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { MdPersonPin } from "react-icons/md";
-import { BsPersonCircle } from "react-icons/bs";
 import { BiLogOut } from "react-icons/bi";
 
 import styles from "./NavBar.module.css";
@@ -18,12 +18,14 @@ import userImg from "../../assets/images/user.png";
 function NavBar(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((state) => state.user);
 
   function login(event) {
     navigate("/login");
+    dispatch(changeLoginRedirect(location.pathname));
   }
 
   function signup(event) {

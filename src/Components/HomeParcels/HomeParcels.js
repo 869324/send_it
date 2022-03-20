@@ -6,11 +6,12 @@ import { useEffect, useState } from "react";
 
 import styles from "./HomeParcels.module.css";
 
-import { setParcels } from "../../Redux/Actions/ParcelActions";
 import AddParcel from "../AddParcel/AddParcel";
 import MyParcels from "../MyParcels/MyParcels";
 import UserDashboard from "../UserDashboard/UserDashboard";
 import GetStarted from "../GetStarted/GetStarted";
+import Track from "../Track/Track";
+
 import {
   setStations,
   changeLoginRedirect,
@@ -51,7 +52,7 @@ function Home(props) {
     ) : states.panel == "newOrder" ? (
       <AddParcel />
     ) : (
-      <AddParcel />
+      <Track />
     );
 
   return (

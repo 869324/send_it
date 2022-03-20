@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import Axios from "axios";
-import { login } from "../../Redux/Actions/UserActions";
 import swal from "sweetalert";
+
+import { login } from "../../Redux/Actions/UserActions";
 
 import styles from "./Login.module.css";
 import bg from "../../assets/images/dark.jpg";
