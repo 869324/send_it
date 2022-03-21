@@ -1,0 +1,98 @@
+.main {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.heading {
+  margin: 0px;
+  text-align: center;
+  color: whitesmoke;
+  margin-bottom: 40px;
+  padding-top: 20px;
+}
+
+.p {
+  width: 100%;
+  display: block;
+  text-align: center;
+  color: orange;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.cont {
+  width: 100%;
+  height: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pic {
+  width: 40%;
+}
+
+.form {
+  width: 50%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  border-radius: 10px;
+}
+
+.inputDiv {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: flex-start;
+}
+
+.label {
+  font-weight: bold;
+  color: whitesmoke;
+}
+
+.input {
+  width: 100%;
+  font-size: 17px;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: rgb(220, 220, 220);
+}
+
+.textDiv {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: flex-start;
+}
+
+.textarea {
+  width: 100%;
+  height: 100px;
+  min-width: 100%;
+  min-height: 100px;
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 10px;
+  padding: 7px;
+  background-color: rgb(220, 220, 220);
+}
+
+.submit {
+  width: 60%;
+  background-color: orange;
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  color: black;
+  font-weight: bold;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
