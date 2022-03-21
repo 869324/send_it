@@ -2,9 +2,10 @@ import { useState } from "react";
 
 import styles from "./Contact.module.css";
 
-import pic from "../../assets/images/Domestic-delivery.png";
+import { BsFillTelephoneOutboundFill, BsTwitter } from "react-icons/bs";
+import { MdEmail } from "react-icons/md";
+
 import axios from "axios";
-import userEvent from "@testing-library/user-event";
 import swal from "sweetalert";
 
 function Contact(props) {
@@ -44,22 +45,42 @@ function Contact(props) {
   }
   return (
     <div className={styles.main}>
-      <h2 className={styles.heading}>Shoot us a message</h2>
-      <p className={styles.p}>
-        You can contact us by using the form below. We make sure to<br></br>{" "}
-        respond as fast as possible
-      </p>
-
       <div className={styles.cont}>
-        <img className={styles.pic} src={pic} />
+        <div className={styles.text}>
+          <h2 className={styles.heading}>Get in touch with us</h2>
+
+          <p className={styles.desc}>
+            Feel free to contact us about your enquiries, our services, our
+            customer service and pretty much anything else you need
+          </p>
+
+          <div className={styles.contacts}>
+            <div className={styles.contact}>
+              <BsFillTelephoneOutboundFill className={styles.phone} size={28} />
+              <label className={styles.value}>+2547 888 888 88</label>
+            </div>
+
+            <div className={styles.contact}>
+              <MdEmail className={styles.email} size={28} />
+              <label className={styles.value}>sendit@gmail.com</label>
+            </div>
+
+            <div className={styles.contact}>
+              <BsTwitter className={styles.twitter} size={28} />
+              <label className={styles.value}>@send_it</label>
+            </div>
+          </div>
+        </div>
 
         <form className={styles.form} onSubmit={submit}>
+          <h2 className={styles.heading}>Contact Us</h2>
           <div className={styles.inputDiv}>
             <label className={styles.label}>Fullname</label>
             <input
               className={styles.input}
               value={name}
               onChange={(e) => setName(e.target.value)}
+              placeholder="Fullname"
             />
           </div>
 
@@ -70,6 +91,7 @@ function Contact(props) {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email address"
             />
           </div>
 
@@ -79,6 +101,7 @@ function Contact(props) {
               className={styles.textarea}
               value={msg}
               onChange={(e) => setMsg(e.target.value)}
+              placeholder="Type message ..."
             />
           </div>
 

@@ -1,11 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import swal from "sweetalert";
-
-import styles from "./AddParcel.module.css";
 import axios from "axios";
 
+import styles from "./AddParcel.module.css";
+import { changePanel } from "../../Redux/Actions/StatesActions";
+
 function AddParcel(props) {
+  const dispatch = useDispatch();
+
   const states = useSelector((state) => state.states);
   const user = useSelector((state) => state.user);
 
@@ -48,6 +51,7 @@ function AddParcel(props) {
                   icon: "success",
                   text: "Order submitted successfuly ",
                 });
+                dispatch(changePanel("myOrders"));
               } else {
                 swal({
                   icon: "error",
@@ -76,6 +80,7 @@ function AddParcel(props) {
       </div>
 
       <form className={styles.form} onSubmit={submit}>
+        <h2 className={styles.heading2}>Order</h2>
         <input
           className={styles.input}
           value={desc}
@@ -93,7 +98,7 @@ function AddParcel(props) {
         />
 
         <div className={styles.locDiv}>
-          <label className={styles.locLabel}>Start Location</label>
+          <label className={styles.locLabel}>From</label>
           <select
             className={styles.select}
             name="startLocation"
@@ -104,7 +109,7 @@ function AddParcel(props) {
         </div>
 
         <div className={styles.locDiv}>
-          <label className={styles.locLabel}>End Location</label>
+          <label className={styles.locLabel}>To</label>
           <select
             className={styles.select}
             name="endLocation"

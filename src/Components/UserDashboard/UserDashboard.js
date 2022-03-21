@@ -44,7 +44,7 @@ function UserDashboard(props) {
         }}
       >
         <ImStatsDots className={styles.tabIcon} size={21} />
-        <label className={styles.tabText}>Track Deliveries</label>
+        <label className={styles.tabText}>Tracking</label>
       </div>
     </div>
   );

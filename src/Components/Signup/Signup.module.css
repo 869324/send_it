@@ -75,16 +75,33 @@
   width: 50%;
 }
 
-.forgotPassword {
-  background: none;
-  border: none;
-  text-decoration: underline;
-  font-size: 18px;
-  font-weight: bold;
-}
-
 .link {
   font-size: 18px;
   font-weight: bold;
   color: black;
+}
+
+@media (max-width: 600px) {
+  .form {
+    width: 80%;
+    height: 80%;
+  }
+  .input {
+    width: 70%;
+    font-size: 17px;
+  }
+
+  .button {
+    width: 73%;
+  }
+
+  .signup {
+    width: 80%;
+  }
+
+  .link {
+    font-size: 17px;
+    font-weight: bold;
+    color: black;
+  }
 }

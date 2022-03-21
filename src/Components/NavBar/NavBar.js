@@ -11,6 +11,7 @@ import { MdPersonPin } from "react-icons/md";
 import { BiLogOut } from "react-icons/bi";
 
 import styles from "./NavBar.module.css";
+import Profile from "../Profile/Profile";
 
 import logo from "../../assets/logos/black.png";
 import userImg from "../../assets/images/user.png";
@@ -21,6 +22,7 @@ function NavBar(props) {
   const location = useLocation();
 
   const [showMenu, setShowMenu] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
   const user = useSelector((state) => state.user);
 
   function login(event) {
@@ -28,11 +30,10 @@ function NavBar(props) {
     dispatch(changeLoginRedirect(location.pathname));
   }
 
-  function signup(event) {
-    navigate("/signup");
-  }
   return (
     <nav className={styles.nav}>
+      {showProfile && <Profile setShowProfile={setShowProfile} />}
+
       <div className={styles.logoDiv}>
         <img className={styles.logo} src={logo} />
         <h2 className={styles.name}>Send It</h2>
@@ -90,7 +91,14 @@ function NavBar(props) {
               <div className={styles.menu}>
                 <div className={styles.menuItem}>
                   <CgProfile className={styles.menuIcon} />
-                  <label className={styles.menuText}>Profile</label>
+                  <label
+                    className={styles.menuText}
+                    onClick={() => {
+                      setShowProfile(true);
+                    }}
+                  >
+                    Profile
+                  </label>
                 </div>
 
                 <div
@@ -113,7 +121,12 @@ function NavBar(props) {
           <button className={styles.login} onClick={login}>
             Login
           </button>
-          <button id={styles.signup} onClick={signup}>
+          <button
+            id={styles.signup}
+            onClick={() => {
+              navigate("/signup");
+            }}
+          >
             Sign Up
           </button>
         </div>

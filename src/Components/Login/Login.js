@@ -44,7 +44,7 @@ function Login(props) {
   }
 
   return (
-    <main className={styles.main} style={{ backgroundImage: `url(${bg})` }}>
+    <main className={styles.main}>
       <div className={styles.overlay}>
         {forgotPassword && (
           <ForgotPassword setForgotPassword={setForgotPassword} />
