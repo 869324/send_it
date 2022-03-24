@@ -8,45 +8,49 @@ module.exports = {
   mailer: async () => {
     try {
       const pool = await mssql.connect(config);
+      const users = await pool
+        .request()
+        .query(
+          "select * from users where isSent = 'false' and isDeleted = 'false' and username = 'javan' "
+        );
 
-      const users = await pool.request().query(`select * from users`);
-      console.log(users);
+      //console.log(users.recordsets[0]);
+      for (let user of users.recordsets[0]) {
+        const { id, email } = user;
+
+        ejs.renderFile(
+          "templates/Registration.ejs",
+          { email },
+          async (error, data) => {
+            if (error) return console.log(error);
+
+            const message = {
+              from: {
+                name: "Send It",
+                address: process.env.EMAIL,
+              },
+              to: email,
+              subject: "Welocome to Send It",
+              html: data,
+            };
+
+            try {
+              await sendMail(message);
+
+              await pool.request
+                .input("id", mssql.VarChar, id)
+                .input("isSent", mssql.VarChar, "true")
+                .execute("updateUser");
+
+              console.log(`Email sent to ${email}`);
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        );
+      }
     } catch (error) {
       console.log(error);
     }
-    /*for (let user of users) {
-      const { id, email } = user;
-
-      ejs.renderFile(
-        "templates/Registration.ejs",
-        { email },
-        async (error, data) => {
-          if (error) return console.log(error);
-
-          const message = {
-            from: {
-              name: "Send It",
-              address: process.env.EMAIL,
-            },
-            to: email,
-            subject: "Welocome to Send It",
-            html: data,
-          };
-
-          try {
-            await sendMail(message);
-
-            await pool.request
-              .input("id", mssql.VarChar, id)
-              .input("isSent", mssql.VarChar, "true")
-              .execute("updateUser");
-
-            console.log(`Email sent to ${email}`);
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      );
-    }*/
   },
 };
