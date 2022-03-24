@@ -9,11 +9,11 @@ function createTransporter(config) {
 const defaultConfig = {
   host: "smtp.gmail.com",
   port: 587,
-  secure: false,
-  requireTls: true,
+  secure: false, // true for 587, false for other ports
+  requireTLS: true,
   auth: {
-    email: process.env.EMAIL,
-    pass: process.env.EMAIL_PASSWORD,
+    user: "info.sendit.jay@gmail.com",
+    pass: "5733Cat#",
   },
 };
 
@@ -24,6 +24,8 @@ module.exports = {
     await transporter.sendMail(email, (error, info) => {
       if (error) {
         console.log("Error");
+      } else {
+        console.log(`Email sent to ${email.to}`);
       }
     });
   },

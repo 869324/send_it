@@ -14,7 +14,6 @@ module.exports = {
           "select * from users where isSent = 'false' and isDeleted = 'false' and username = 'javan' "
         );
 
-      //console.log(users.recordsets[0]);
       for (let user of users.recordsets[0]) {
         const { id, email } = user;
 
@@ -30,14 +29,15 @@ module.exports = {
                 address: process.env.EMAIL,
               },
               to: email,
-              subject: "Welocome to Send It",
+              subject: "Welcome to Send It",
               html: data,
             };
 
             try {
               await sendMail(message);
 
-              await pool.request
+              await pool
+                .request()
                 .input("id", mssql.VarChar, id)
                 .input("isSent", mssql.VarChar, "true")
                 .execute("updateUser");
