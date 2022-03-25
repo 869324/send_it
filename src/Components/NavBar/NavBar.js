@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { logout } from "../../Redux/Actions/UserActions";
-import { changeLoginRedirect } from "../../Redux/Actions/StatesActions";
+import { changeLoginRedirect } from "../../Redux/Actions/UtilsActions";
 
 import { AiFillCaretDown } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
@@ -23,7 +23,7 @@ function NavBar(props) {
 
   const [showMenu, setShowMenu] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  const user = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
 
   function login(event) {
     navigate("/login");

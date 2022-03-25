@@ -15,7 +15,7 @@ function User(props) {
         <Routes>
           <Route index element={<Navigate to="/user/home" />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/parcels" element={<HomeParcels />} />
+          <Route path="/parcels/*" element={<HomeParcels />} />
           <Route path="/aboutUs" element={<AboutUs />} />
           <Route path="/contactUs" element={<Contact />} />
         </Routes>

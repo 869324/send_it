@@ -1,58 +1,65 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import swal from "sweetalert";
 import axios from "axios";
-
 import { GrClose } from "react-icons/gr";
 
 import styles from "./UserParcelEditor.module.css";
+import {
+  getParcels,
+  resetUpdateParcels,
+  updateParcel,
+} from "../../Redux/Actions/ParcelActions";
 
 function UserParcelEditor(props) {
-  const states = useSelector((state) => state.states);
+  const dispatch = useDispatch();
+
+  const { stations } = useSelector((state) => state.utils);
   const user = useSelector((state) => state.user);
+  const updateParcelState = useSelector((state) => state.parcels.update);
 
-  const [desc, setDesc] = useState(props.parcel.description);
-  const [receiver, setReceiver] = useState(props.parcel.receiver_number);
-  const [start, setStart] = useState(
-    states.stations.find((station) => station.id == props.parcel.start_location)
-      .name
-  );
-  const [end, setEnd] = useState(
-    states.stations.find((station) => station.id == props.parcel.end_location)
-      .name
-  );
+  const [parcelData, setParcelData] = useState({
+    id: props.parcel.id,
+    description: props.parcel.description,
+    receiver_number: props.parcel.receiver_number,
+    start_location: props.parcel.start_location,
+    end_location: props.parcel.end_location,
+  });
 
-  const options = states.stations.map((station) => {
-    return <option value={station.name}>{station.name}</option>;
+  useEffect(() => {
+    const { error, loading, status } = updateParcelState;
+    if (status) {
+      swal({
+        icon: "success",
+        text: "Order has been updated",
+      });
+      dispatch(getParcels(props.parcelsData));
+      props.setShowEditor(false);
+    } else if (error != "" && !loading) {
+      swal({
+        icon: "error",
+        text: "Order could not update",
+      });
+    }
+  }, [updateParcelState]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetUpdateParcels());
+    };
+  }, []);
+
+  function handleChange(e) {
+    setParcelData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+
+  const options = stations.map((station) => {
+    return <option value={station.id}>{station.name}</option>;
   });
 
   function submit(event) {
     event.preventDefault();
-    axios
-      .put("http://localhost:8000/parcels/updateParcel", {
-        id: props.parcel.id,
-        start_location: states.stations.find((station) => station.name == start)
-          .id,
-        end_location: states.stations.find((station) => station.name == end).id,
-        receiver_number: receiver,
-        description: desc,
-      })
-      .then((res) => {
-        if (res.data.status) {
-          props.fetchParcels(props.order);
-          swal({
-            icon: "success",
-            text: "Parcel has been updated",
-          });
-          props.setShowEditor(false);
-        } else {
-          swal({
-            icon: "error",
-            text: "Update could not update, try again later",
-          });
-        }
-      })
-      .error((err) => console.log(err));
+    dispatch(updateParcel(parcelData));
   }
 
   return (
@@ -70,8 +77,9 @@ function UserParcelEditor(props) {
             <label className={styles.category}>Description</label>
             <input
               className={styles.input}
-              value={desc}
-              onChange={(e) => setDesc(e.target.value)}
+              name="description"
+              value={parcelData.description}
+              onChange={handleChange}
               required
             />
           </div>
@@ -80,9 +88,10 @@ function UserParcelEditor(props) {
             <label className={styles.category}>Receiver Phone</label>
             <input
               className={styles.input}
-              value={receiver}
               type="number"
-              onChange={(e) => setReceiver(e.target.value)}
+              name="receiver_number"
+              value={parcelData.receiver_number}
+              onChange={handleChange}
               placeholder="Receiver's Phone"
               required
             />
@@ -92,9 +101,9 @@ function UserParcelEditor(props) {
             <label className={styles.locLabel}>Start Location</label>
             <select
               className={styles.select}
-              name="startLocation"
-              value={start}
-              onChange={(e) => setStart(e.target.value)}
+              name="start_location"
+              value={parcelData.start_location}
+              onChange={handleChange}
             >
               {options}
             </select>
@@ -104,9 +113,9 @@ function UserParcelEditor(props) {
             <label className={styles.locLabel}>End Location</label>
             <select
               className={styles.select}
-              name="endLocation"
-              value={end}
-              onChange={(e) => setEnd(e.target.value)}
+              name="end_location"
+              value={parcelData.end_location}
+              onChange={handleChange}
             >
               {options}
             </select>

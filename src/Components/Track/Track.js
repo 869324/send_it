@@ -1,9 +1,17 @@
 import GoogleMapReact from "google-map-react";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import styles from "./Track.module.css";
+import { changePanel } from "../../Redux/Actions/UtilsActions";
 
 function Track(props) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(changePanel("/user/parcels/trackDeliveries"));
+  }, []);
+
   function apiIsLoaded(map, maps) {
     const directionsService = new window.google.maps.DirectionsService();
     const directionsRenderer = new window.google.maps.DirectionsRenderer();
@@ -33,7 +41,7 @@ function Track(props) {
 
       <div className={styles.map}>
         <GoogleMapReact
-          bootstrapURLKeys={{ key: "" }}
+          bootstrapURLKeys={{ key: "AIzaSyDvLec-HtdGShd-joZxCb_w45NUlhV0MnI" }}
           defaultCenter={{
             lat: -0.4167,
             lng: 36.95,

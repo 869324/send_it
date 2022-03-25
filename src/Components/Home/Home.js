@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { changePanel } from "../../Redux/Actions/StatesActions";
-
 import styles from "./Home.module.css";
 
 import bg from "../../assets/images/dark.jpg";
@@ -19,25 +17,6 @@ import track from "../../assets/images/track.webp";
 function Home(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  function newOrder() {
-    dispatch(changePanel("newOrder"));
-    navigate("/user/parcels");
-  }
-
-  function manageOrders() {
-    dispatch(changePanel("myOrders"));
-    navigate("/user/parcels");
-  }
-
-  function trackDeliveries() {
-    dispatch(changePanel("trackDelivery"));
-    navigate("/user/parcels");
-  }
-
-  function contactUs() {
-    navigate("/user/contactUs");
-  }
 
   return (
     <main className={styles.home}>
@@ -64,28 +43,48 @@ function Home(props) {
           <div className={styles.info}>
             <div className={styles.tile}>
               <img className={styles.tileImg} src={order} />
-              <button className={styles.tileText} onClick={newOrder}>
+              <button
+                className={styles.tileText}
+                onClick={() => {
+                  navigate("/user/parcels/newOrder");
+                }}
+              >
                 Order a delivery
               </button>
             </div>
 
             <div className={styles.tile}>
               <img className={styles.tileImg} src={view} />
-              <button className={styles.tileText} onClick={manageOrders}>
+              <button
+                className={styles.tileText}
+                onClick={() => {
+                  navigate("/user/parcels/orders");
+                }}
+              >
                 Manage your deliveries
               </button>
             </div>
 
             <div className={styles.tile}>
               <img className={styles.tileImg} src={nav} />
-              <button className={styles.tileText} onClick={trackDeliveries}>
+              <button
+                className={styles.tileText}
+                onClick={() => {
+                  navigate("/user/parcels/trackDeliveries");
+                }}
+              >
                 Track your Deliveries
               </button>
             </div>
 
             <div className={styles.tile}>
               <img className={styles.tileImg} src={contact} />
-              <button className={styles.tileText} onClick={contactUs}>
+              <button
+                className={styles.tileText}
+                onClick={() => {
+                  navigate("/user/contactUs");
+                }}
+              >
                 Contact Us
               </button>
             </div>
@@ -102,8 +101,8 @@ function Home(props) {
             <h3 className={styles.textHeading}>Accessibilty</h3>
             <p className={styles.adText}>
               Our services are accessible from allover across the country. We go
-              the extra mile (pun intended) to cover all Routes accorind to our
-              clients' needs. You can contatct us from every part of the country
+              the extra mile (pun intended) to cover all Routes according to our
+              clients' needs. You can contact us from every part of the country
               through our contact channels
             </p>
           </div>

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import styles from "./Contact.module.css";
 
@@ -7,41 +8,55 @@ import { MdEmail } from "react-icons/md";
 
 import axios from "axios";
 import swal from "sweetalert";
+import {
+  sendMessage,
+  resetSendMessage,
+} from "../../Redux/Actions/MessageActions";
 
 function Contact(props) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [msg, setMsg] = useState("");
+  const dispatch = useDispatch();
+
+  const sendMessageState = useSelector((state) => state.message.send);
+
+  const [messageData, setMessageData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  useEffect(() => {
+    const { error, loading, status } = sendMessageState;
+    if (loading) {
+      swal({
+        text: "Loading ...",
+      });
+    } else if (status) {
+      swal({
+        icon: "success",
+        text: "Message has been sent",
+      });
+      setMessageData((prev) => ({ ...prev, name: "", email: "", message: "" }));
+    } else if (error != "") {
+      swal({
+        icons: "error",
+        text: error,
+      });
+    }
+  }, [sendMessageState]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetSendMessage());
+    };
+  }, []);
+
+  function handleChange(e) {
+    setMessageData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
 
   function submit(event) {
     event.preventDefault();
-
-    axios
-      .post("http://localhost:8000/messages/addMessage", {
-        name: name,
-        email: email,
-        message: msg,
-      })
-      .then((res) => {
-        if (res.data.status) {
-          swal({
-            icon: "success",
-            text: "Message sent",
-          });
-
-          setName("");
-          setEmail("");
-          setMsg("");
-        } else {
-          swal({
-            icon: "error",
-            text: "Message not sent. Try agin later",
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(sendMessage(messageData));
   }
   return (
     <div className={styles.main}>
@@ -78,8 +93,9 @@ function Contact(props) {
             <label className={styles.label}>Fullname</label>
             <input
               className={styles.input}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={messageData.name}
+              name="name"
+              onChange={handleChange}
               placeholder="Fullname"
             />
           </div>
@@ -89,8 +105,9 @@ function Contact(props) {
             <input
               className={styles.input}
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={messageData.email}
+              name="email"
+              onChange={handleChange}
               placeholder="Email address"
             />
           </div>
@@ -99,8 +116,9 @@ function Contact(props) {
             <label className={styles.label}>Message</label>
             <textarea
               className={styles.textarea}
-              value={msg}
-              onChange={(e) => setMsg(e.target.value)}
+              value={messageData.message}
+              name="message"
+              onChange={handleChange}
               placeholder="Type message ..."
             />
           </div>

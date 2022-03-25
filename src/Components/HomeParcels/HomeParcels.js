@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Routes, useNavigate, Route, Navigate } from "react-router-dom";
 import swal from "sweetalert";
 import { useEffect, useState } from "react";
 
@@ -13,52 +13,44 @@ import GetStarted from "../GetStarted/GetStarted";
 import Track from "../Track/Track";
 
 import {
-  setStations,
   changeLoginRedirect,
-} from "../../Redux/Actions/StatesActions";
+  getStations,
+} from "../../Redux/Actions/UtilsActions";
 
 function Home(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const states = useSelector((state) => state.states);
-  const user = useSelector((state) => state.user);
+  const { stations, activePanel } = useSelector((state) => state.utils);
+  const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (Object.keys(user).length == 0) {
       navigate("/login");
-      if (states.loginRedirect != "/user/parcels") {
-        dispatch(changeLoginRedirect("/user/parcels"));
-      }
+      dispatch(changeLoginRedirect("/user/parcels"));
 
       swal({
         title: "Login to Continue",
-        text: "You need to log in to access parcel services",
       });
     }
-  });
+  }, [user]);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/parcels/getStations").then((res) => {
-      dispatch(setStations(res.data.stations));
-    });
+    dispatch(getStations());
   }, []);
-
-  const panel =
-    states.panel == "getStarted" ? (
-      <GetStarted />
-    ) : states.panel == "myOrders" ? (
-      <MyParcels />
-    ) : states.panel == "newOrder" ? (
-      <AddParcel />
-    ) : (
-      <Track />
-    );
 
   return (
     <main className={styles.main}>
       <UserDashboard />
-      <div className={styles.panel}>{panel}</div>
+      <div className={styles.panel}>
+        <Routes>
+          <Route exact path="/" element={<Navigate to={activePanel} />}></Route>
+          <Route path="getStarted" element={<GetStarted />}></Route>
+          <Route path="orders" element={<MyParcels />}></Route>
+          <Route path="newOrder" element={<AddParcel />}></Route>
+          <Route path="trackDeliveries" element={<Track />}></Route>
+        </Routes>
+      </div>
     </main>
   );
 }

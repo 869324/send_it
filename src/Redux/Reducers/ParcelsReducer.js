@@ -1,12 +1,178 @@
-import { SET_PARCELS } from "../ActionTypes/ParcelActionTypes";
+import { combineReducers } from "redux";
+import {
+  ADD_PARCEL,
+  GET_PARCELS,
+  UPDATE_PARCEL,
+  DELETE_PARCEL,
+} from "../ActionTypes/ParcelActionTypes";
 
-const parcelsReducer = (state = [], action) => {
+const getState = {
+  parcels: [],
+  loading: false,
+  error: "",
+  status: false,
+};
+
+const addState = {
+  loading: false,
+  error: "",
+  status: false,
+};
+
+const updateState = {
+  loading: false,
+  error: "",
+  status: false,
+};
+
+const deleteState = {
+  loading: false,
+  error: "",
+  status: false,
+};
+
+const addReducer = (state = addState, action) => {
   switch (action.type) {
-    case SET_PARCELS:
-      return action.parcels;
+    case ADD_PARCEL.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: "",
+        status: true,
+      };
+
+    case ADD_PARCEL.FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+        status: false,
+      };
+
+    case ADD_PARCEL.LOADING:
+      return {
+        ...state,
+        loading: true,
+        error: "",
+        status: false,
+      };
+
+    case ADD_PARCEL.RESET:
+      return addState;
+
     default:
       return state;
   }
 };
+
+const getReducer = (state = getState, action) => {
+  switch (action.type) {
+    case GET_PARCELS.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: "",
+        status: true,
+        parcels: action.parcels,
+      };
+
+    case GET_PARCELS.FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+        status: false,
+      };
+
+    case GET_PARCELS.LOADING:
+      return {
+        ...state,
+        loading: true,
+        error: "",
+        status: false,
+      };
+
+    case GET_PARCELS.RESET:
+      return getState;
+
+    default:
+      return state;
+  }
+};
+
+const updateReducer = (state = updateState, action) => {
+  switch (action.type) {
+    case UPDATE_PARCEL.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: "",
+        status: true,
+      };
+
+    case UPDATE_PARCEL.FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+        status: false,
+      };
+
+    case UPDATE_PARCEL.LOADING:
+      return {
+        ...state,
+        loading: true,
+        error: "",
+        status: false,
+      };
+
+    case UPDATE_PARCEL.RESET:
+      return updateState;
+
+    default:
+      return state;
+  }
+};
+
+const deleteReducer = (state = deleteState, action) => {
+  switch (action.type) {
+    case DELETE_PARCEL.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: "",
+        status: true,
+      };
+
+    case DELETE_PARCEL.FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+        status: false,
+      };
+
+    case DELETE_PARCEL.LOADING:
+      return {
+        ...state,
+        loading: true,
+        error: "",
+        status: false,
+      };
+
+    case DELETE_PARCEL.RESET:
+      return deleteState;
+
+    default:
+      return state;
+  }
+};
+
+const parcelsReducer = combineReducers({
+  add: addReducer,
+  get: getReducer,
+  update: updateReducer,
+  delete: deleteReducer,
+});
 
 export default parcelsReducer;

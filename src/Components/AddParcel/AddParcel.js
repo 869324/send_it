@@ -1,66 +1,72 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import swal from "sweetalert";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./AddParcel.module.css";
-import { changePanel } from "../../Redux/Actions/StatesActions";
+import { changePanel } from "../../Redux/Actions/UtilsActions";
+import { addParcel, resetAddParcels } from "../../Redux/Actions/ParcelActions";
 
 function AddParcel(props) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const states = useSelector((state) => state.states);
-  const user = useSelector((state) => state.user);
+  const addParcelState = useSelector((state) => state.parcels.add);
+  const { stations } = useSelector((state) => state.utils);
+  const { user } = useSelector((state) => state.user);
 
   const cost = "1500";
 
-  const [desc, setDesc] = useState("");
-  const [receiver, setReceiver] = useState("");
-  const [start, setStart] = useState(states.stations[0].name);
-  const [end, setEnd] = useState(states.stations[0].name);
-
-  const options = states.stations.map((station) => {
-    return <option value={station.name}>{station.name}</option>;
+  const [parcelData, setParcelData] = useState({
+    description: "",
+    receiverNumber: "",
+    startLocation: stations[0].id,
+    endLocation: stations[0].id,
+    sender_id: user.id,
+    cost: 1500,
   });
+
+  useEffect(() => {
+    dispatch(changePanel("/user/parcels/newOrder"));
+  }, []);
+
+  useEffect(() => {
+    const { error, loading, status } = addParcelState;
+    if (status) {
+      swal({
+        icon: "success",
+        text: "Order has been submitted",
+      });
+      navigate("/user/parcels/orders");
+    } else if (error != "" && !loading) {
+      swal({
+        icon: "error",
+        text: "Order not submitted",
+      });
+    }
+  }, [addParcelState]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetAddParcels());
+    };
+  }, []);
+
+  function handleChange(e) {
+    setParcelData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
 
   function submit(event) {
     event.preventDefault();
-    if (start != end) {
+
+    if (parcelData.startLocation != parcelData.endLocation) {
       swal({
         title: "Confirm your order",
         text: `You will be charged KSH ${cost} for this order`,
         buttons: ["Cancel order", "Confirm order!"],
       }).then((isConfirm) => {
         if (isConfirm) {
-          axios
-            .post("http://localhost:8000/parcels/addParcel", {
-              description: desc,
-              sender_id: user.id,
-              receiver_number: receiver,
-              start_location: states.stations.find(
-                (station) => station.name == start
-              ).id,
-              end_location: states.stations.find(
-                (station) => station.name == end
-              ).id,
-              cost: cost,
-            })
-            .then((res) => {
-              if (res.data.status) {
-                swal({
-                  icon: "success",
-                  text: "Order submitted successfuly ",
-                });
-                dispatch(changePanel("myOrders"));
-              } else {
-                swal({
-                  icon: "error",
-                  title: "Submission failed",
-                  text: "Try again later ",
-                });
-              }
-            })
-            .catch((err) => {});
+          dispatch(addParcel(parcelData));
         } else {
           swal("Order has been aborted");
         }
@@ -73,6 +79,10 @@ function AddParcel(props) {
     }
   }
 
+  const options = stations.map((station) => {
+    return <option value={station.id}>{station.name}</option>;
+  });
+
   return (
     <div className={styles.main}>
       <div className={styles.header}>
@@ -81,19 +91,24 @@ function AddParcel(props) {
 
       <form className={styles.form} onSubmit={submit}>
         <h2 className={styles.heading2}>Order</h2>
+
         <input
           className={styles.input}
-          value={desc}
-          onChange={(e) => setDesc(e.target.value)}
+          value={parcelData.description}
+          name="description"
+          onChange={handleChange}
           placeholder="Item description"
           required
         />
         <input
           className={styles.input}
-          value={receiver}
+          value={parcelData.receiverNumber}
           type="number"
-          onChange={(e) => setReceiver(e.target.value)}
-          placeholder="Receiver's Phone"
+          name="receiverNumber"
+          onChange={handleChange}
+          placeholder="07xx xxx xxx"
+          minLength={10}
+          maxLength={10}
           required
         />
 
@@ -102,7 +117,7 @@ function AddParcel(props) {
           <select
             className={styles.select}
             name="startLocation"
-            onChange={(e) => setStart(e.target.value)}
+            onChange={handleChange}
           >
             {options}
           </select>
@@ -113,7 +128,7 @@ function AddParcel(props) {
           <select
             className={styles.select}
             name="endLocation"
-            onChange={(e) => setEnd(e.target.value)}
+            onChange={handleChange}
           >
             {options}
           </select>

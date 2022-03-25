@@ -33,12 +33,14 @@
 
 .picDiv {
   width: 50%;
+  display: flex;
+  justify-content: end;
 }
 
 .cont {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 }
 

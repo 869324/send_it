@@ -3,50 +3,110 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
+import { debounce } from "lodash";
 
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaUpload } from "react-icons/fa";
 import { MdDelete, MdLocationOn } from "react-icons/md";
+import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 
 import styles from "./MyParcels.module.css";
 import UserParcelEditor from "../UserParcelEditor/UserParcelEditor";
+import { changePanel } from "../../Redux/Actions/UtilsActions";
 
-import { setParcels } from "../../Redux/Actions/ParcelActions";
-import { setTrackId } from "../../Redux/Actions/StatesActions";
-import { changePanel } from "../../Redux/Actions/StatesActions";
+import {
+  getParcels,
+  resetGetParcels,
+  deleteParcel,
+  resetDeleteParcels,
+} from "../../Redux/Actions/ParcelActions";
+import { setTrackId } from "../../Redux/Actions/UtilsActions";
 import swal from "sweetalert";
 
 function MyParcels(props) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const [page, setPage] = useState(1);
-  const parcels = useSelector((state) => state.parcels);
-  const states = useSelector((state) => state.states);
-  const user = useSelector((state) => state.user);
+  const getParcelState = useSelector((state) => state.parcels.get);
+  const deleteParcelState = useSelector((state) => state.parcels.delete);
+  const utils = useSelector((state) => state.utils);
+  const { user } = useSelector((state) => state.user);
 
-  const [order, setOrder] = useState("date desc");
-  const [search, setSearch] = useState("");
+  const [parcelsData, setParcelsData] = useState({
+    order: "date desc",
+    search: "",
+    size: 5,
+    page: 1,
+    user: user.id,
+  });
+
   const [parcelEdit, setParcel] = useState({});
   const [showEditor, setShowEditor] = useState(false);
-  const size = 20;
 
   useEffect(() => {
-    fetchParcels();
+    dispatch(changePanel("/user/parcels/orders"));
   }, []);
 
-  function fetchParcels(sort = order) {
-    axios
-      .post(`http://localhost:8000/parcels/getParcels`, {
-        page: page,
-        user: user.id,
-        order: sort,
-        search: search,
-        size: size,
-      })
-      .then((res) => {
-        dispatch(setParcels(res.data.parcels));
+  useEffect(() => {
+    dispatch(getParcels(parcelsData));
+  }, [parcelsData]);
+
+  useEffect(() => {
+    const { error, loading, status } = getParcelState;
+    if (!status && !loading) {
+      if (error == "You have not made any orders yet") {
+        swal({
+          text: "You have not made any orders yet",
+        });
+      } else if (error == "There is no more data") {
+        setParcelsData((prev) => ({
+          ...prev,
+          page: parcelsData.page - 1,
+        }));
+      } else if (error != "") {
+        swal({
+          icon: "error",
+          text: error,
+        });
+      }
+    }
+  }, [getParcelState]);
+
+  useEffect(() => {
+    const { error, loading, status } = deleteParcelState;
+    if (loading) {
+      swal({
+        text: "Loading ...",
       });
+    } else if (status) {
+      swal({
+        icon: "success",
+        text: "Order has been canceled",
+      });
+      dispatch(getParcels(parcelsData));
+    } else if (error != "") {
+      swal({
+        icon: "Failed",
+        text: error,
+      });
+    }
+  }, [deleteParcelState]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetGetParcels());
+      dispatch(resetDeleteParcels());
+    };
+  }, []);
+
+  function handleChange(e) {
+    setParcelsData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
+
+  const debouncedSearch = debounce(async (e) => {
+    handleChange(e);
+  }, 300);
 
   function cancelOrder(id, isSent) {
     if (isSent == "true") {
@@ -63,22 +123,7 @@ function MyParcels(props) {
         dangerMode: true,
       }).then((isConfirm) => {
         if (isConfirm) {
-          axios
-            .delete(`http://localhost:8000/parcels/deleteParcel/${id}`)
-            .then((res) => {
-              if (res.data.status) {
-                fetchParcels();
-                swal({
-                  icon: "success",
-                  text: "Order has been canceled",
-                });
-              } else {
-                swal({
-                  icon: "error",
-                  text: "Order could not be canceled, try again later",
-                });
-              }
-            });
+          dispatch(deleteParcel(id));
         }
       });
     }
@@ -90,8 +135,7 @@ function MyParcels(props) {
         <UserParcelEditor
           setShowEditor={setShowEditor}
           parcel={parcelEdit}
-          fetchParcels={fetchParcels}
-          order={order}
+          parcelsData={parcelsData}
         />
       )}
 
@@ -99,15 +143,14 @@ function MyParcels(props) {
         <div className={styles.searchDiv}>
           <input
             className={styles.search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-            }}
+            name="search"
+            onChange={debouncedSearch}
             placeholder="Search"
           />
           <AiOutlineSearch
             className={styles.searchIcon}
             size={28}
-            onClick={() => fetchParcels(order)}
+            onClick={() => dispatch(getParcels(parcelsData))}
           />
         </div>
 
@@ -115,15 +158,7 @@ function MyParcels(props) {
 
         <div className={styles.sortDiv}>
           <label className={styles.sortText}>Sort</label>
-          <select
-            className={styles.sort}
-            name="sort"
-            onChange={(e) => {
-              e.preventDefault();
-              setOrder(e.target.value);
-              fetchParcels(e.target.value);
-            }}
-          >
+          <select className={styles.sort} name="order" onChange={handleChange}>
             <option value={"date desc"}>Date Desc</option>
             <option value={"date asc"}>Date Asc</option>
             <option value={"desc asc"}>Description Asc</option>
@@ -146,20 +181,22 @@ function MyParcels(props) {
             <th className={styles.tableHeaderIcon}>Update</th>
             <th className={styles.tableHeaderIcon}>Cancel</th>
           </tr>
-          {parcels.map((parcel, id) => {
+          {getParcelState.parcels.map((parcel, id) => {
             return (
               <tr
                 className={
                   (id + 1) % 2 > 0 ? styles.tableRowOdd : styles.tableRowEven
                 }
               >
-                <td className={styles.tableData}>{id + 1} </td>
+                <td className={styles.tableData}>
+                  {(parcelsData.page - 1) * parcelsData.size + id + 1}
+                </td>
 
                 <td className={styles.tableData}>{parcel.description} </td>
 
                 <td className={styles.tableData}>
                   {
-                    states.stations.find(
+                    utils.stations.find(
                       (station) => station.id == parcel.start_location
                     ).name
                   }
@@ -167,7 +204,7 @@ function MyParcels(props) {
 
                 <td className={styles.tableData}>
                   {
-                    states.stations.find(
+                    utils.stations.find(
                       (station) => station.id == parcel.end_location
                     ).name
                   }
@@ -197,7 +234,7 @@ function MyParcels(props) {
                     size={21}
                     onClick={() => {
                       dispatch(setTrackId(parcel.id));
-                      dispatch(changePanel("trackDelivery"));
+                      navigate("/user/parcels/trackDeliveries");
                     }}
                   />
                 </td>
@@ -224,6 +261,38 @@ function MyParcels(props) {
             );
           })}
         </table>
+
+        <div className={styles.pagination}>
+          <div
+            className={styles.pageDiv}
+            onClick={() => {
+              if (parcelsData.page > 1) {
+                setParcelsData((prev) => ({
+                  ...prev,
+                  page: parcelsData.page - 1,
+                }));
+              }
+            }}
+          >
+            <GrLinkPrevious className={styles.pageIcon} size={28} />
+            <label className={styles.pageLabel}> Prev</label>
+          </div>
+
+          <div className={styles.pageText}>Page {parcelsData.page}</div>
+
+          <div
+            className={styles.pageDiv}
+            onClick={() =>
+              setParcelsData((prev) => ({
+                ...prev,
+                page: parcelsData.page + 1,
+              }))
+            }
+          >
+            <label className={styles.pageLabel}> Next</label>
+            <GrLinkNext className={styles.pageIcon} size={28} />
+          </div>
+        </div>
       </div>
     </div>
   );

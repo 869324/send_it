@@ -1,2 +1,14 @@
-export const LOGIN = "LOGIN";
-export const LOGOUT = "LOGOUT";
+export const LOGIN = {
+  LOGOUT: "LOGOUT",
+  SUCCESS: "LOGIN_SUCCESS",
+  FAIL: "LOGIN_FAIL",
+  LOADING: "LOGIN_LOADING",
+  RESET: "LOGIN_RRSET",
+};
+
+export const SIGNUP = {
+  SUCCESS: "SIGNUP_SUCCESS",
+  FAIL: "SIGNUP_FAIL",
+  LOADING: "SIGNUP_LOADING",
+  RESET: "SIGNUP_RESET",
+};

@@ -1,8 +1,8 @@
-import { useDispatch } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 import styles from "./GetStarted.module.css";
-
-import { changePanel } from "../../Redux/Actions/StatesActions";
+import { changePanel } from "../../Redux/Actions/UtilsActions";
 
 import order from "../../assets/images/order.png";
 import view from "../../assets/images/view.png";
@@ -10,7 +10,11 @@ import nav from "../../assets/images/nav.png";
 import homePic from "../../assets/images/Domestic-delivery.png";
 
 function GetStarted(props) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { activePanel } = useSelector((state) => state.utils);
+
   return (
     <div className={styles.main}>
       <h1 className={styles.heading}>
@@ -22,10 +26,12 @@ function GetStarted(props) {
       <div className={styles.actions}>
         <div className={styles.action}>
           <img className={styles.actionImg} src={order} />
+
           <button
             className={styles.actionText}
             onClick={() => {
-              dispatch(changePanel("newOrder"));
+              navigate("/user/parcels/newOrder");
+              dispatch(changePanel("/user/parcels/newOrder"));
             }}
           >
             Order a delivery
@@ -37,10 +43,11 @@ function GetStarted(props) {
           <button
             className={styles.actionText}
             onClick={() => {
-              dispatch(changePanel("myOrders"));
+              navigate("/user/parcels/orders");
+              dispatch(changePanel("/user/parcels/orders"));
             }}
           >
-            Manage your deliveries
+            See my orders
           </button>
         </div>
 
@@ -49,10 +56,11 @@ function GetStarted(props) {
           <button
             className={styles.actionText}
             onClick={() => {
-              dispatch(changePanel("trackDelivery"));
+              navigate("/user/parcels/trackDeliveries");
+              dispatch(changePanel("/user/parcels/trackDeliveries"));
             }}
           >
-            Track your Deliveries
+            Track deliveries
           </button>
         </div>
       </div>

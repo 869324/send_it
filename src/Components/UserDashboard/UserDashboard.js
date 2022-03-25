@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import { FaLuggageCart } from "react-icons/fa";
 import { ImStatsDots } from "react-icons/im";
@@ -6,46 +7,45 @@ import { SiAddthis } from "react-icons/si";
 
 import styles from "./UserDashboard.module.css";
 
-import { changePanel } from "../../Redux/Actions/StatesActions";
+import { changePanel } from "../../Redux/Actions/UtilsActions";
 
 function UserDashboard(props) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const states = useSelector((state) => state.states);
+  const utils = useSelector((state) => state.utils);
 
   return (
     <div className={styles.dashboard}>
-      <div
-        className={states.panel === "newOrder" ? styles.tabActive : styles.tab}
-        onClick={() => {
-          dispatch(changePanel("newOrder"));
-        }}
+      <NavLink
+        to="newOrder"
+        className={(navData) =>
+          navData.isActive ? styles.active : styles.link
+        }
       >
         <SiAddthis className={styles.tabIcon} size={21} />
-        <label className={styles.tabText}>New Order</label>
-      </div>
+        New Order
+      </NavLink>
 
-      <div
-        className={states.panel === "myOrders" ? styles.tabActive : styles.tab}
-        onClick={() => {
-          dispatch(changePanel("myOrders"));
-        }}
+      <NavLink
+        to="orders"
+        className={(navData) =>
+          navData.isActive ? styles.active : styles.link
+        }
       >
         <FaLuggageCart className={styles.tabIcon} size={21} />
-        <label className={styles.tabText}>My Orders</label>
-      </div>
+        My Orders
+      </NavLink>
 
-      <div
-        className={
-          states.panel === "trackDelivery" ? styles.tabActive : styles.tab
+      <NavLink
+        to="trackDeliveries"
+        className={(navData) =>
+          navData.isActive ? styles.active : styles.link
         }
-        onClick={() => {
-          dispatch(changePanel("trackDelivery"));
-        }}
       >
         <ImStatsDots className={styles.tabIcon} size={21} />
-        <label className={styles.tabText}>Tracking</label>
-      </div>
+        Tracking
+      </NavLink>
     </div>
   );
 }
