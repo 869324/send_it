@@ -1,0 +1,18 @@
+create table parcels (
+id varchar(100) primary key not null,
+sender_id varchar(100) not null,
+description varchar(max) not null,
+receiver_number int not null,
+start_location int not null,
+end_location int not null,
+cost int not null,
+isDeleted varchar(max) not null default 'false',
+isUpdated varchar(max) default 'false' not null,
+isSent varchar(max) not null default 'false',
+isDelivered varchar(max) not null default 'false',
+date_created datetime2 not null,
+current_location varchar(max) ,
+constraint fk_sender foreign key (sender_id) references users (id),
+constraint fk_start foreign key (start_location) references stations (id),
+constraint fk_end foreign key (end_location) references stations (id),
+);

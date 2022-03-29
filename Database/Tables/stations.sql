@@ -1,0 +1,1 @@
+create table stations (id int primary key identity, name varchar(max) not null, lng varchar(max) not null, lat varchar(max) not null);
