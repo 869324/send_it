@@ -1,0 +1,101 @@
+.bg {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.editor {
+  width: 60%;
+  height: 70%;
+  background-color: rgba(220, 220, 220);
+  border-radius: 10px;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.close {
+  position: relative;
+  left: 95%;
+  top: 2%;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.heading {
+  margin: 0px;
+  text-align: center;
+}
+
+.form {
+  width: 90%;
+  height: 80%;
+  margin: auto;
+  margin-top: 50px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.inputDiv {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.option {
+}
+
+.radio {
+  transform: scale(1.5);
+}
+
+.radioLabel {
+  margin-left: 5px;
+}
+
+.category {
+  width: 20%;
+  font-weight: 700;
+}
+
+.locDiv {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.locLabel {
+  width: 20%;
+  font-weight: 700;
+}
+
+.locInput {
+  padding: 7px;
+  border: none;
+  border-radius: 7px;
+  font-size: 17px;
+}
+
+.submit {
+  width: 80%;
+  border: none;
+  background-color: orange;
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 10px;
+  padding: 10px 40px;
+  color: black;
+}
+
+.submit:hover {
+  background-color: rgba(255, 165, 0, 0.8);
+}

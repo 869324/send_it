@@ -36,7 +36,8 @@ function Login(props) {
         title: "Login Successful",
         icon: "success",
       });
-      navigate(loginRedirect);
+
+      user.isAdmin == "true" ? navigate("/admin") : navigate(loginRedirect);
     } else if (loading) {
       swal({
         text: "Loading ...",

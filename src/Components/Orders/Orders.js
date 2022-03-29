@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -8,45 +7,33 @@ import { debounce } from "lodash";
 
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaUpload } from "react-icons/fa";
-import { MdDelete, MdLocationOn } from "react-icons/md";
 import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 
-import styles from "./MyParcels.module.css";
-import UserParcelEditor from "../UserParcelEditor/UserParcelEditor";
-import { changePanel } from "../../Redux/Actions/UtilsActions";
+import AdminEditParcel from "../AdminEditParcels/AdminEditParcels";
+import styles from "./Orders.module.css";
 
-import {
-  getParcels,
-  resetGetParcels,
-  deleteParcel,
-  resetDeleteParcels,
-} from "../../Redux/Actions/ParcelActions";
-import { setTrackId } from "../../Redux/Actions/UtilsActions";
+import { getParcels, resetGetParcels } from "../../Redux/Actions/ParcelActions";
 import swal from "sweetalert";
 
-function MyParcels(props) {
+function Orders(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const getParcelState = useSelector((state) => state.parcels.get);
-  const deleteParcelState = useSelector((state) => state.parcels.delete);
   const utils = useSelector((state) => state.utils);
   const { user } = useSelector((state) => state.user);
+
+  //console.log(getParcelState);
 
   const [parcelsData, setParcelsData] = useState({
     order: "date desc",
     search: "",
     size: 10,
     page: 1,
-    user: user.id,
   });
 
   const [parcelEdit, setParcel] = useState({});
   const [showEditor, setShowEditor] = useState(false);
-
-  useEffect(() => {
-    dispatch(changePanel("/user/parcels/orders"));
-  }, []);
 
   useEffect(() => {
     dispatch(getParcels(parcelsData));
@@ -70,29 +57,8 @@ function MyParcels(props) {
   }, [getParcelState]);
 
   useEffect(() => {
-    const { error, loading, status } = deleteParcelState;
-    if (loading) {
-      swal({
-        text: "Loading ...",
-      });
-    } else if (status) {
-      swal({
-        icon: "success",
-        text: "Order has been canceled",
-      });
-      dispatch(getParcels(parcelsData));
-    } else if (error != "") {
-      swal({
-        icon: "Failed",
-        text: error,
-      });
-    }
-  }, [deleteParcelState]);
-
-  useEffect(() => {
     return () => {
       dispatch(resetGetParcels());
-      dispatch(resetDeleteParcels());
     };
   }, []);
 
@@ -104,31 +70,10 @@ function MyParcels(props) {
     handleChange(e);
   }, 300);
 
-  function cancelOrder(id, isSent) {
-    if (isSent == "true") {
-      swal({
-        icon: "warning",
-        text: "You cannot cancel this order because the parcel is enroute",
-      });
-    } else {
-      swal({
-        icon: "warning",
-        title: "Confirm cancelation",
-        text: `Are you sure you want to cancel this order?`,
-        buttons: ["No", "Yes"],
-        dangerMode: true,
-      }).then((isConfirm) => {
-        if (isConfirm) {
-          dispatch(deleteParcel(id));
-        }
-      });
-    }
-  }
-
   return (
     <div className={styles.main}>
       {showEditor && (
-        <UserParcelEditor
+        <AdminEditParcel
           setShowEditor={setShowEditor}
           parcel={parcelEdit}
           parcelsData={parcelsData}
@@ -173,9 +118,7 @@ function MyParcels(props) {
             <th className={styles.tableHeader}>Receiver</th>
             <th className={styles.tableHeader}>Date</th>
             <th className={styles.tableHeader}>Status</th>
-            <th className={styles.tableHeaderIcon}>Track</th>
             <th className={styles.tableHeaderIcon}>Update</th>
-            <th className={styles.tableHeaderIcon}>Cancel</th>
           </tr>
           {getParcelState.parcels.map((parcel, id) => {
             return (
@@ -225,17 +168,6 @@ function MyParcels(props) {
                 </td>
 
                 <td className={styles.tableIcon}>
-                  <MdLocationOn
-                    className={styles.trackIcon}
-                    size={21}
-                    onClick={() => {
-                      dispatch(setTrackId(parcel.id));
-                      navigate("/user/parcels/trackDeliveries");
-                    }}
-                  />
-                </td>
-
-                <td className={styles.tableIcon}>
                   <FaUpload
                     className={styles.updateIcon}
                     size={21}
@@ -243,14 +175,6 @@ function MyParcels(props) {
                       setParcel(parcel);
                       setShowEditor(true);
                     }}
-                  />
-                </td>
-
-                <td className={styles.tableIcon}>
-                  <MdDelete
-                    className={styles.cancelIcon}
-                    size={21}
-                    onClick={() => cancelOrder(parcel.id, parcel.isSent)}
                   />
                 </td>
               </tr>
@@ -294,4 +218,4 @@ function MyParcels(props) {
   );
 }
 
-export default MyParcels;
+export default Orders;

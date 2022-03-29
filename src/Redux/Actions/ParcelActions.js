@@ -16,19 +16,13 @@ export const getParcels = (parcelsData) => async (dispatch) => {
     .post("http://localhost:8000/parcels/getParcels", parcelsData)
     .then((response) => {
       if (response.data.status) {
-        if (response.data.parcels.length == 0) {
-          if (parcelsData.page > 1) {
-            dispatch({
-              type: GET_PARCELS.FAIL,
-              error: "There is no more data",
-            });
-          } else if (parcelsData.page == 1) {
-            dispatch({
-              type: GET_PARCELS.FAIL,
-              error: "You have not made any orders yet",
-            });
-          }
+        if (response.data.parcels.length == 0 && parcelsData.page > 1) {
+          dispatch({
+            type: GET_PARCELS.FAIL,
+            error: "There is no more data",
+          });
         } else {
+          console.log(response.data.parcels);
           dispatch({
             type: GET_PARCELS.SUCCESS,
             parcels: response.data.parcels,
