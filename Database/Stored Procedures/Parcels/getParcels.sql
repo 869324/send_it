@@ -11,7 +11,7 @@ WHERE
 ORDER BY
 	CASE WHEN @order = 'date desc' THEN date_created END DESC,
 	CASE WHEN @order = 'date asc' THEN date_created END ASC,
-	CASE WHEN @order = 'description desc' THEN description END DESC,
-	CASE WHEN @order = 'description asc' THEN description END ASC
+	CASE WHEN @order = 'desc desc' THEN description END DESC,
+	CASE WHEN @order = 'desc asc' THEN description END ASC
 OFFSET (@page - 1) * @size ROWS 
 FETCH NEXT @size ROWS ONLY;
