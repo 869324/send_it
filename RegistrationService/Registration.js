@@ -11,7 +11,7 @@ module.exports = {
       const users = await pool
         .request()
         .query(
-          "select * from users where isSent = 'true' and isDeleted = 'false' and username = 'javan' "
+          "select * from users where isSent = 'false' and isDeleted = 'false' "
         );
 
       for (let user of users.recordsets[0]) {

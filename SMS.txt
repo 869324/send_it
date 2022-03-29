@@ -1,0 +1,56 @@
+1. Register on AfricasTalking
+
+
+Link:https://account.africastalking.com/auth/login
+After registration Create a team
+Create a new App
+
+After this You will have a Username and an Api(go to setting then Api key, input your password and get a key)
+
+You maybe Required to pay  in order to send SMS but you will be given some free sms on registration (around 10)
+
+To pay Go to Billing >> Payment Method>>Choose Mpesa 
+You will get Instructions
+Any Amound eg 30 is 37 sms
+
+
+
+Step 2
+
+Install: npm i africastalking
+
+
+
+Step 3 Code:
+
+const express= require('express')
+require('dotenv').config()
+
+const app= express()
+
+const credentials = {
+    apiKey:"your api key ",  
+    username:'App username' 
+};
+
+const Africastalking = require('africastalking')(credentials);
+
+const sms = Africastalking.SMS
+const options = {
+    to: '+2547........',
+    message: "I'm a lumberjack and its ok, I work all night and sleep all day"
+}
+
+sms.send(options).then( response => {
+        console.log(response);
+    })
+
+    .catch( error => {
+        console.log(error);
+    });
+
+
+
+    app.listen(4000,()=>{
+        console.log("Running on Port 4000")
+    })
