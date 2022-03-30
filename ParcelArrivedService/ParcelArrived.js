@@ -20,6 +20,7 @@ module.exports = {
       );
 
     for (item of data.recordset) {
+      console.log(item);
       const result = await pool
         .request()
         .input("id", mssql.VarChar, item.sender_id)
@@ -48,7 +49,7 @@ module.exports = {
             .input("id", mssql.VarChar, item.id)
             .input("isUpdatedArrive", mssql.VarChar, "true")
             .execute("updateParcel");
-          console.log("Message sent");
+          console.log(`Message sent to ${message.to}`);
         })
         .catch((error) => {
           console.log(error);

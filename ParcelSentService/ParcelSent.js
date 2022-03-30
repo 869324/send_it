@@ -41,10 +41,10 @@ module.exports = {
       const to = station2.recordset[0].name;
       const sms = africasTalking.SMS;
       const message = {
-        to: `+254${user.phone}`,
+        to: `+254${[...user.phone].slice(1, 10).join("")}`,
         message: `Hello ${user.fullname}, your parcel of ${item.description} has departed from ${from} to ${to}. We will update you on arrival`,
       };
-      console.log(message);
+      //console.log(message);
 
       sms
         .send(message)
@@ -54,7 +54,7 @@ module.exports = {
             .input("id", mssql.VarChar, item.id)
             .input("isUpdatedSend", mssql.VarChar, "true")
             .execute("updateParcel");
-          console.log("Message sent");
+          console.log(`Message sent to ${message.to}`);
         })
         .catch((error) => {
           console.log(error);
