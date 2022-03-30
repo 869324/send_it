@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import swal from "sweetalert";
-import axios from "axios";
+
 import { GrClose } from "react-icons/gr";
 
 import styles from "./AdminEditParcels.module.css";
@@ -21,8 +21,7 @@ function AdminEditParcel(props) {
 
   const [isSent, setSent] = useState(props.parcel.isSent);
   const [isDelivered, setDelivered] = useState(props.parcel.isDelivered);
-  const [lng, setLng] = useState("");
-  const [lat, setLat] = useState("");
+  const [loc, setLoc] = useState(null);
 
   useEffect(() => {
     const { error, loading, status } = updateParcelState;
@@ -61,11 +60,15 @@ function AdminEditParcel(props) {
           id: props.parcel.id,
           isSent: isSent,
           isDelivered: isDelivered,
-          current_location: `${lng} ${lat}`,
+          current_location: loc,
         })
       );
     }
   }
+
+  const options = stations.map((station) => {
+    return <option value={station.id}>{station.name}</option>;
+  });
 
   return (
     <div className={styles.bg}>
@@ -137,18 +140,13 @@ function AdminEditParcel(props) {
             style={{ visibility: isSent == "true" ? "visible" : "hidden" }}
           >
             <label className={styles.locLabel}>Current Location</label>
-            <input
-              className={styles.locInput}
-              placeholder="Longitude"
-              value={lng}
-              onChange={(e) => setLng(e.target.value)}
-            />
-            <input
-              className={styles.locInput}
-              placeholder="Latitude"
-              value={lat}
-              onChange={(e) => setLat(e.target.value)}
-            />
+            <select
+              className={styles.select}
+              name="endLocation"
+              onChange={(e) => setLoc(e.target.value)}
+            >
+              {options}
+            </select>
           </div>
 
           <button className={styles.submit} type="submit">

@@ -106,7 +106,7 @@ function AddParcel(props) {
           type="number"
           name="receiverNumber"
           onChange={handleChange}
-          placeholder="07xx xxx xxx"
+          placeholder="Receiver's phone number"
           minLength={10}
           maxLength={10}
           required

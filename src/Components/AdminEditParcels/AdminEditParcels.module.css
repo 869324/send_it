@@ -78,11 +78,13 @@
   font-weight: 700;
 }
 
-.locInput {
-  padding: 7px;
+.select {
+  width: 75%;
+  padding: 10px;
+  border-radius: 10px;
   border: none;
-  border-radius: 7px;
   font-size: 17px;
+  background-color: whitesmoke;
 }
 
 .submit {

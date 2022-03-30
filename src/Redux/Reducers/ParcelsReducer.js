@@ -4,6 +4,7 @@ import {
   GET_PARCELS,
   UPDATE_PARCEL,
   DELETE_PARCEL,
+  GET_A_PARCEL,
 } from "../ActionTypes/ParcelActionTypes";
 
 const getState = {
@@ -29,6 +30,13 @@ const deleteState = {
   loading: false,
   error: "",
   status: false,
+};
+
+const getParcelState = {
+  loading: false,
+  error: "",
+  status: false,
+  parcel: {},
 };
 
 const addReducer = (state = addState, action) => {
@@ -93,7 +101,12 @@ const getReducer = (state = getState, action) => {
       };
 
     case GET_PARCELS.RESET:
-      return getState;
+      return {
+        ...state,
+        loading: false,
+        error: "",
+        status: false,
+      };
 
     default:
       return state;
@@ -168,11 +181,47 @@ const deleteReducer = (state = deleteState, action) => {
   }
 };
 
+const getParcelReducer = (state = getParcelState, action) => {
+  switch (action.type) {
+    case GET_A_PARCEL.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: "",
+        status: true,
+        parcel: action.parcel,
+      };
+
+    case GET_A_PARCEL.FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+        status: false,
+      };
+
+    case GET_A_PARCEL.LOADING:
+      return {
+        ...state,
+        loading: true,
+        error: "",
+        status: false,
+      };
+
+    case GET_A_PARCEL.RESET:
+      return getParcelState;
+
+    default:
+      return state;
+  }
+};
+
 const parcelsReducer = combineReducers({
   add: addReducer,
   get: getReducer,
   update: updateReducer,
   delete: deleteReducer,
+  getParcel: getParcelReducer,
 });
 
 export default parcelsReducer;

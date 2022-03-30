@@ -13,7 +13,7 @@ import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 
 import styles from "./MyParcels.module.css";
 import UserParcelEditor from "../UserParcelEditor/UserParcelEditor";
-import { changePanel } from "../../Redux/Actions/UtilsActions";
+import { changePanel, setTrackId } from "../../Redux/Actions/UtilsActions";
 
 import {
   getParcels,
@@ -21,7 +21,7 @@ import {
   deleteParcel,
   resetDeleteParcels,
 } from "../../Redux/Actions/ParcelActions";
-import { setTrackId } from "../../Redux/Actions/UtilsActions";
+
 import swal from "sweetalert";
 
 function MyParcels(props) {

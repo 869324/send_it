@@ -5,6 +5,7 @@ import {
   GET_PARCELS,
   UPDATE_PARCEL,
   DELETE_PARCEL,
+  GET_A_PARCEL,
 } from "../ActionTypes/ParcelActionTypes";
 
 export const getParcels = (parcelsData) => async (dispatch) => {
@@ -22,7 +23,6 @@ export const getParcels = (parcelsData) => async (dispatch) => {
             error: "There is no more data",
           });
         } else {
-          console.log(response.data.parcels);
           dispatch({
             type: GET_PARCELS.SUCCESS,
             parcels: response.data.parcels,
@@ -124,6 +124,34 @@ export const deleteParcel = (id) => async (dispatch) => {
     });
 };
 
+export const getParcel = (id) => async (dispatch) => {
+  dispatch({
+    type: GET_A_PARCEL.LOADING,
+  });
+
+  axios
+    .get(`http://localhost:8000/parcels/getAParcel/${id}`)
+    .then((response) => {
+      if (response.data.status) {
+        dispatch({
+          type: GET_A_PARCEL.SUCCESS,
+          parcel: response.data.parcel,
+        });
+      } else {
+        dispatch({
+          type: GET_A_PARCEL.FAIL,
+          error: "Order could not update tracking information",
+        });
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: GET_A_PARCEL.FAIL,
+        error: "Order could not update tracking information",
+      });
+    });
+};
+
 export function resetGetParcels() {
   return {
     type: GET_PARCELS.RESET,
@@ -145,5 +173,11 @@ export function resetUpdateParcels() {
 export function resetDeleteParcels() {
   return {
     type: DELETE_PARCEL.RESET,
+  };
+}
+
+export function resetGetParcel() {
+  return {
+    type: GET_A_PARCEL.RESET,
   };
 }

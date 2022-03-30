@@ -7,3 +7,26 @@
   width: 100%;
   height: 95%;
 }
+
+.info {
+  height: 5%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.trackInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.infoLabel {
+  font-size: 17px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.infoValue {
+  font-size: 17px;
+}
