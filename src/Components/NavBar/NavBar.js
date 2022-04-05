@@ -23,7 +23,7 @@ function NavBar(props) {
 
   const [showMenu, setShowMenu] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  const { user } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user.login);
 
   function login(event) {
     navigate("/login");
@@ -34,7 +34,7 @@ function NavBar(props) {
     <nav className={styles.nav}>
       {showProfile && <Profile setShowProfile={setShowProfile} />}
 
-      <div className={styles.logoDiv}>
+      <div className={styles.logoDiv} onClick={() => navigate("/")}>
         <img className={styles.logo} src={logo} />
         <h2 className={styles.name}>Send It</h2>
       </div>

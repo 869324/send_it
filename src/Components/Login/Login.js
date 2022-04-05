@@ -12,7 +12,7 @@ function Login(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const loginInfo = useSelector((state) => state.user);
+  const loginInfo = useSelector((state) => state.user.login);
   const { loginRedirect } = useSelector((state) => state.utils);
 
   const [forgotPassword, setForgotPassword] = useState(false);
@@ -23,33 +23,33 @@ function Login(props) {
   });
 
   useEffect(() => {
-    return () => {
-      dispatch(resetLogin());
-    };
-  }, []);
+    const { user, loading, error, status } = loginInfo;
 
-  useEffect(() => {
-    const { user, loading, loginError } = loginInfo;
-
-    if (Object.keys(user).length > 0) {
+    if (status) {
       swal({
         title: "Login Successful",
         icon: "success",
       });
-
+      console.log(user);
       user.isAdmin == "true" ? navigate("/admin") : navigate(loginRedirect);
     } else if (loading) {
       swal({
         text: "Loading ...",
       });
-    } else if (loginError != "") {
+    } else if (error !== "") {
       swal({
         title: "Login failed",
         icon: "error",
-        text: loginError,
+        text: error,
       });
     }
   }, [loginInfo]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetLogin());
+    };
+  }, []);
 
   function handleChange(e) {
     setUserData((prev) => ({ ...prev, [e.target.name]: e.target.value }));

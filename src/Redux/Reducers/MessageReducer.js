@@ -3,6 +3,9 @@ import { combineReducers } from "redux";
 import {
   SEND_MESSAGE,
   UPDATE_MESSAGE,
+  DELETE_MESSAGE,
+  GET_A_MESSAGES,
+  GET_MESSAGES,
 } from "../ActionTypes/MessageActionTypes";
 
 const sendState = {
@@ -15,6 +18,13 @@ const updateState = {
   loading: false,
   error: "",
   status: false,
+};
+
+const getMessagesState = {
+  loading: false,
+  error: "",
+  status: false,
+  messages: [],
 };
 
 const sendReducer = (state = sendState, action) => {
@@ -85,9 +95,45 @@ const updateReducer = (state = updateState, action) => {
   }
 };
 
+const getMessagesReducer = (state = getMessagesState, action) => {
+  switch (action.type) {
+    case GET_MESSAGES.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: "",
+        status: true,
+        messages: action.messages,
+      };
+
+    case GET_MESSAGES.FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+        status: false,
+      };
+
+    case GET_MESSAGES.LOADING:
+      return {
+        ...state,
+        loading: true,
+        error: "",
+        status: false,
+      };
+
+    case GET_MESSAGES.RESET:
+      return getMessagesState;
+
+    default:
+      return state;
+  }
+};
+
 const messageReducer = combineReducers({
   send: sendReducer,
   update: updateReducer,
+  getMessages: getMessagesReducer,
 });
 
 export default messageReducer;

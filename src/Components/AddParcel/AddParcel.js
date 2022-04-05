@@ -13,7 +13,7 @@ function AddParcel(props) {
 
   const addParcelState = useSelector((state) => state.parcels.add);
   const { stations } = useSelector((state) => state.utils);
-  const { user } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user.login);
 
   const cost = "1500";
 
@@ -38,7 +38,11 @@ function AddParcel(props) {
         text: "Order has been submitted",
       });
       navigate("/user/parcels/orders");
-    } else if (error != "" && !loading) {
+    } else if (loading) {
+      swal({
+        text: "Loading ...",
+      });
+    } else if (error != "") {
       swal({
         icon: "error",
         text: "Order not submitted",

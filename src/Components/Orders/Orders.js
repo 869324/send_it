@@ -126,6 +126,7 @@ function Orders(props) {
                 className={
                   (id + 1) % 2 > 0 ? styles.tableRowOdd : styles.tableRowEven
                 }
+                id ={id}
               >
                 <td className={styles.tableData}>
                   {(parcelsData.page - 1) * parcelsData.size + id + 1}

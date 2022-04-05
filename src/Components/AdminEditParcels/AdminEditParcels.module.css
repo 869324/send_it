@@ -11,8 +11,8 @@
 }
 
 .editor {
-  width: 60%;
-  height: 70%;
+  width: 50%;
+  height: 60%;
   background-color: rgba(220, 220, 220);
   border-radius: 10px;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
@@ -24,6 +24,12 @@
   top: 2%;
   font-size: 25px;
   font-weight: bold;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.close:hover {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .heading {

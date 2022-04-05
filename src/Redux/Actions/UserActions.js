@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { LOGIN, SIGNUP } from "../ActionTypes/UserActionTypes";
+import { LOGIN, SIGNUP, UPDATE_USER } from "../ActionTypes/UserActionTypes";
 
 export const login = (user) => async (dispatch) => {
   dispatch({
@@ -57,6 +57,33 @@ export const signup = (user) => async (dispatch) => {
     });
 };
 
+export const updateUser = (user) => async (dispatch) => {
+  dispatch({
+    type: UPDATE_USER.LOADING,
+  });
+
+  axios
+    .put("http://localhost:8000/users/updateUser", user)
+    .then((response) => {
+      if (response.data.status) {
+        dispatch({
+          type: UPDATE_USER.SUCCESS,
+        });
+      } else {
+        dispatch({
+          type: UPDATE_USER.FAIL,
+          error: "Your profile could not be updated. Try again later",
+        });
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: UPDATE_USER.FAIL,
+        error: "Your profile could not be updated. Try again later",
+      });
+    });
+};
+
 export function resetSignup() {
   return {
     type: SIGNUP.RESET,
@@ -72,5 +99,11 @@ export function resetLogin() {
 export function logout() {
   return {
     type: LOGIN.LOGOUT,
+  };
+}
+
+export function resetUserUpdate() {
+  return {
+    type: UPDATE_USER.RESET,
   };
 }

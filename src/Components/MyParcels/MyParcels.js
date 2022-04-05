@@ -31,7 +31,7 @@ function MyParcels(props) {
   const getParcelState = useSelector((state) => state.parcels.get);
   const deleteParcelState = useSelector((state) => state.parcels.delete);
   const utils = useSelector((state) => state.utils);
-  const { user } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user.login);
 
   const [parcelsData, setParcelsData] = useState({
     order: "date desc",

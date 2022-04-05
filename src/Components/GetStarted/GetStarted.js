@@ -17,9 +17,7 @@ function GetStarted(props) {
 
   return (
     <div className={styles.main}>
-      <h1 className={styles.heading}>
-        Make and manage all your orders with ease
-      </h1>
+      <h1 className={styles.heading}>Make and manage all your orders</h1>
 
       <img className={styles.homePic} src={homePic} />
 

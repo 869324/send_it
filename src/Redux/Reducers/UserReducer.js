@@ -1,106 +1,157 @@
 import { combineReducers } from "redux";
-import { LOGIN, SIGNUP } from "../ActionTypes/UserActionTypes";
-const initialState = {
-  loginError: "",
-  user: {},
-  loading: false,
-  signupStatus: false,
-  signupError: "",
-};
+import { LOGIN, SIGNUP, UPDATE_USER } from "../ActionTypes/UserActionTypes";
+
 const loginState = {
-  loginError: "",
+  error: "",
   user: {},
   loading: false,
-  signupStatus: false,
-  signupError: "",
+  status: false,
 };
 
 const signupState = {
-  loginError: "",
-  user: {},
+  error: "",
   loading: false,
-  signupStatus: false,
-  signupError: "",
+  status: false,
 };
 
-const loginReducer = (state = loginState, action) => {};
+const updateState = {
+  error: "",
+  loading: false,
+  status: false,
+};
 
-const userReducer = (state = initialState, action) => {
+const loginReducer = (state = loginState, action) => {
   switch (action.type) {
     case LOGIN.SUCCESS:
       return {
         ...state,
-        loading: false,
         user: action.user,
-        loginError: "",
-      };
-
-    case LOGIN.FAIL:
-      return {
-        ...state,
+        status: true,
         loading: false,
-        user: {},
-        loginError: action.error,
+        error: "",
       };
 
     case LOGIN.LOADING:
       return {
         ...state,
-        loading: true,
         user: {},
-        loginError: "",
+        status: false,
+        loading: true,
+        error: "",
+      };
+
+    case LOGIN.FAIL:
+      return {
+        ...state,
+        user: {},
+        status: false,
+        loading: false,
+        error: action.error,
       };
 
     case LOGIN.LOGOUT:
       return {
-        ...state,
-        loading: false,
         user: {},
-        loginError: "",
+        status: false,
+        loading: false,
+        error: "",
       };
 
     case LOGIN.RESET:
       return {
         ...state,
+        status: false,
         loading: false,
-        loginError: "",
-      };
-
-    case SIGNUP.SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        signupStatus: true,
-        signupError: "",
-      };
-
-    case SIGNUP.FAIL:
-      return {
-        ...state,
-        loading: false,
-        signupStatus: false,
-        signupError: action.error,
-      };
-
-    case SIGNUP.LOADING:
-      return {
-        ...state,
-        loading: true,
-        signupStatus: false,
-        signupError: "",
-      };
-
-    case SIGNUP.RESET:
-      return {
-        ...state,
-        loading: false,
-        signupStatus: false,
-        signupError: "",
+        error: "",
       };
 
     default:
       return state;
   }
 };
+
+const signupReducer = (state = signupState, action) => {
+  switch (action.type) {
+    case SIGNUP.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        status: true,
+        error: "",
+      };
+
+    case SIGNUP.FAIL:
+      return {
+        ...state,
+        loading: false,
+        status: false,
+        error: action.error,
+      };
+
+    case SIGNUP.LOADING:
+      return {
+        ...state,
+        loading: true,
+        status: false,
+        error: "",
+      };
+
+    case SIGNUP.RESET:
+      return {
+        ...state,
+        loading: false,
+        status: false,
+        error: "",
+      };
+
+    default:
+      return state;
+  }
+};
+
+const updateReducer = (state = updateState, action) => {
+  switch (action.type) {
+    case UPDATE_USER.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        status: true,
+        error: "",
+      };
+
+    case UPDATE_USER.FAIL:
+      return {
+        ...state,
+        loading: false,
+        status: false,
+        error: action.error,
+      };
+
+    case UPDATE_USER.LOADING:
+      return {
+        ...state,
+        loading: true,
+        status: false,
+        error: "",
+      };
+
+    case UPDATE_USER.RESET:
+      return {
+        ...state,
+        loading: false,
+        error: "",
+        status: false,
+      };
+
+    default:
+      return state;
+  }
+};
+
+const userReducer = combineReducers({
+  login: loginReducer,
+  signup: signupReducer,
+  update: updateReducer,
+});
 
 export default userReducer;

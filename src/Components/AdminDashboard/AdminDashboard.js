@@ -41,7 +41,7 @@ function AdminDashboard(props) {
         Messages
       </NavLink>
 
-      <NavLink
+      {/*<NavLink
         to="accounts"
         className={(navData) =>
           navData.isActive ? styles.active : styles.link
@@ -49,7 +49,7 @@ function AdminDashboard(props) {
       >
         <FaUsers className={styles.tabIcon} size={21} />
         Accounts
-      </NavLink>
+      </NavLink>*/}
     </div>
   );
 }

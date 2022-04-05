@@ -15,7 +15,7 @@ function Signup(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const signupInfo = useSelector((state) => state.user);
+  const signupInfo = useSelector((state) => state.user.signup);
 
   const [userData, setUserData] = useState({
     firstname: "",
@@ -37,15 +37,9 @@ function Signup(props) {
   }
 
   useEffect(() => {
-    return () => {
-      dispatch(resetSignup());
-    };
-  }, []);
+    const { loading, error, status } = signupInfo;
 
-  useEffect(() => {
-    const { loading, signupError, signupStatus } = signupInfo;
-
-    if (signupStatus) {
+    if (status) {
       swal("Login to continue", {
         title: "Sign up successful",
         icon: "success",
@@ -56,17 +50,23 @@ function Signup(props) {
       swal({
         text: "Loading ...",
       });
-    } else if (signupError != "") {
+    } else if (error != "") {
       swal({
         title: "Sign up Failed",
         icon: "error",
-        text: signupError,
+        text: error,
       });
     }
   }, [signupInfo]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(resetSignup());
+    };
+  }, []);
+
   return (
-    <main className={styles.main} style={{ backgroundImage: `url(${bg})` }}>
+    <main className={styles.main}>
       <div className={styles.overlay}>
         <form className={styles.form} onSubmit={submit}>
           <div className={styles.header}>

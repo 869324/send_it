@@ -22,7 +22,7 @@ function Home(props) {
   const navigate = useNavigate();
 
   const { stations, activePanel } = useSelector((state) => state.utils);
-  const { user } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user.login);
 
   useEffect(() => {
     if (Object.keys(user).length == 0) {

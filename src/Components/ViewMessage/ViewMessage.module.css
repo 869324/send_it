@@ -2,15 +2,15 @@
   width: 100vw;
   height: 100vh;
   position: absolute;
-  top: 0px;
-  left: 0px;
-  background-color: rgba(0, 0, 0, 0.7);
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.profile {
+.cont {
   width: 50%;
   height: 60%;
   border-radius: 10px;
@@ -20,7 +20,7 @@
 .close {
   position: relative;
   left: 95%;
-  top: 2%;
+  top: 3%;
   padding: 5px;
   border-radius: 10px;
 }
@@ -30,42 +30,38 @@
 }
 
 .heading {
+  text-align: center;
   margin: 0px;
   margin-top: -3%;
-  text-align: center;
 }
 
-.id {
-  width: 80%;
+.infoDiv {
+  width: 90%;
   margin: auto;
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
+  margin-bottom: 10px;
 }
 
-.pic {
-  color: teal;
-  margin-right: 30px;
-}
-
-.label {
+.infoLabel {
+  font-size: 17px;
   font-weight: bold;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
-.value {
+.info {
+  font-size: 17px;
   font-weight: 500;
   color: teal;
 }
 
-.otherInfo {
-  width: 80%;
+.messageText {
+  width: 100%;
   margin: auto;
-  margin-top: 20px;
-}
-
-@media (max-width: 750px) {
-  .profile {
-    width: 80%;
-  }
+  margin-top: 15px;
+  display: block;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  font-weight: 500;
+  height: 200px;
+  overflow-y: auto;
 }
